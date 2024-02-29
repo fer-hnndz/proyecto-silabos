@@ -13,6 +13,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    Tree.h \
     Usuario.h \
     mainwindow.h
 
