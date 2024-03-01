@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lbl_pngMenu->setPixmap(QPixmap::fromImage(menu));
     ui->lbl_b1M->setStyleSheet("background-color: #062458;");
     ui->lbl_b2M->setStyleSheet("background-color: #062458;");
-
+    //hola
 
 }
 
