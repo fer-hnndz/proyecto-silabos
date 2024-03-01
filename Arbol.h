@@ -12,7 +12,7 @@ class Arbol {
             return left;
         }
 
-        Arbol<T>* getRightDer() {
+        Arbol<T>* getArbolDer() {
             return right;
         }
 
