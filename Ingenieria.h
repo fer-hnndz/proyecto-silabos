@@ -8,7 +8,8 @@ enum Ingenieria {
     Energia,
     CDIA,
     Telecomunicaciones,
-    Industrial
+    Industrial,
+    Biomedica
 };
 
 #endif // INGENIERIA_H
