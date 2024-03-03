@@ -107,7 +107,7 @@
            </palette>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>0</number>
           </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">
@@ -464,18 +464,6 @@
                  </property>
                 </widget>
                </item>
-               <item row="3" column="0" rowspan="2">
-                <widget class="QLabel" name="lbl_codigoE">
-                 <property name="font">
-                  <font>
-                   <pointsize>12</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Codigo de clase:</string>
-                 </property>
-                </widget>
-               </item>
                <item row="4" column="3" rowspan="2">
                 <widget class="QPushButton" name="btn_silaboE">
                  <property name="palette">
@@ -581,10 +569,36 @@
                <item row="6" column="2">
                 <widget class="QLineEdit" name="le_pathE">
                  <property name="enabled">
-                  <bool>true</bool>
+                  <bool>false</bool>
                  </property>
                  <property name="text">
-                  <string>no editable</string>
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0" rowspan="2" colspan="2">
+                <widget class="QLabel" name="lbl_codigoE">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Codigo de clase:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3" rowspan="3">
+                <widget class="QPushButton" name="btn_closeE">
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif Collection</family>
+                   <pointsize>7</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Cerrar
+Sesion</string>
                  </property>
                 </widget>
                </item>
@@ -735,6 +749,119 @@
             <string>REVISION</string>
            </attribute>
            <layout class="QGridLayout" name="gridLayout_5">
+            <item row="1" column="0">
+             <widget class="QFrame" name="frameR1">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_9">
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="Rle_clave">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QComboBox" name="Rcb_usuario">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <item>
+                  <property name="text">
+                   <string>...</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Jefe Academico</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Coordinador de carrera</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>IEDD</string>
+                  </property>
+                 </item>
+                 <item>
+                  <property name="text">
+                   <string>Consultor</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="Rlbl_name">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Nombre Completo:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QLineEdit" name="Rle_name">
+                 <property name="font">
+                  <font>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QPushButton" name="Rbtn_sesion">
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif Collection</family>
+                   <pointsize>11</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Iniciar Sesion</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="Rlbl_contra">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Clave:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="Rlbl_usuario">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Tipo de usuario:</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
             <item row="0" column="0">
              <widget class="QLabel" name="lbl_pngR">
               <property name="text">
@@ -753,16 +880,138 @@
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QFrame" name="frameR2">
-              <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
-              </property>
-              <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
-              </property>
+              <layout class="QGridLayout" name="gridLayout_10">
+               <item row="0" column="0">
+                <widget class="QFrame" name="Rframe1">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_12">
+                  <item row="0" column="0">
+                   <widget class="QTableWidget" name="RTW_revision"/>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QFrame" name="frame_2">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_11">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="Rlbl_seleccion">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Seleccion:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QLineEdit" name="Rle_seleccion">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="Rlbl_estadoA">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Estado Actual:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QLineEdit" name="Rle_estadoA">
+                    <property name="enabled">
+                     <bool>false</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="Rlbl_name_4">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Cambiar Estado:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QComboBox" name="Rcb_cambiarE">
+                    <property name="font">
+                     <font>
+                      <pointsize>11</pointsize>
+                     </font>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>...</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="Rlbl_comentario">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Comentario:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QLineEdit" name="Rle_comentario">
+                    <property name="enabled">
+                     <bool>true</bool>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="4" column="1">
+                   <widget class="QPushButton" name="Rbtn_cambiar">
+                    <property name="font">
+                     <font>
+                      <family>Sans Serif Collection</family>
+                      <pointsize>11</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Cambiar</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="1">
+                   <widget class="QPushButton" name="Rbtn_cerrar">
+                    <property name="text">
+                     <string>Cerrar Sesion</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
            </layout>
@@ -783,115 +1032,151 @@
              </widget>
             </item>
             <item row="1" column="0">
-             <widget class="QFrame" name="frameD2">
+             <widget class="QFrame" name="frameB1">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
-              <widget class="QPushButton" name="btn_silabosEnAprobacion">
-               <property name="geometry">
-                <rect>
-                 <x>30</x>
-                 <y>40</y>
-                 <width>251</width>
-                 <height>31</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Silabos en Aprobación</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="label">
-               <property name="geometry">
-                <rect>
-                 <x>20</x>
-                 <y>10</y>
-                 <width>421</width>
-                 <height>31</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Seleccione la opcion que desea visualizar</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="btn_silabosCompletados">
-               <property name="geometry">
-                <rect>
-                 <x>30</x>
-                 <y>80</y>
-                 <width>241</width>
-                 <height>31</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Silabos Completados</string>
-               </property>
-              </widget>
-              <widget class="QPushButton" name="btn_silabosFaltantes">
-               <property name="geometry">
-                <rect>
-                 <x>30</x>
-                 <y>120</y>
-                 <width>231</width>
-                 <height>31</height>
-                </rect>
-               </property>
-               <property name="font">
-                <font>
-                 <pointsize>14</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string>Silabos Faltantes</string>
-               </property>
-              </widget>
-              <widget class="QLabel" name="lblInfoIdea">
-               <property name="geometry">
-                <rect>
-                 <x>540</x>
-                 <y>20</y>
-                 <width>201</width>
-                 <height>151</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;La idea seria que cuando &lt;/p&gt;&lt;p&gt;se presione un boton se abra &lt;/p&gt;&lt;p&gt;otro menu para seleccionar &lt;/p&gt;&lt;p&gt;la carrera que se quiere visualizar&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="textFormat">
-                <enum>Qt::AutoText</enum>
-               </property>
-              </widget>
-              <widget class="QComboBox" name="cb_carrera">
-               <property name="geometry">
-                <rect>
-                 <x>360</x>
-                 <y>120</y>
-                 <width>141</width>
-                 <height>24</height>
-                </rect>
-               </property>
-              </widget>
+              <layout class="QGridLayout" name="gridLayout_13">
+               <item row="0" column="0">
+                <widget class="QFrame" name="frameBB1">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <widget class="QPushButton" name="Bbtn_silabosFaltantes">
+                  <property name="geometry">
+                   <rect>
+                    <x>70</x>
+                    <y>120</y>
+                    <width>241</width>
+                    <height>31</height>
+                   </rect>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Sans Serif Collection</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Silabos Faltantes</string>
+                  </property>
+                 </widget>
+                 <widget class="QPushButton" name="Bbtn_silabosCompletados">
+                  <property name="geometry">
+                   <rect>
+                    <x>70</x>
+                    <y>40</y>
+                    <width>241</width>
+                    <height>31</height>
+                   </rect>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Sans Serif Collection</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Silabos Completados</string>
+                  </property>
+                 </widget>
+                 <widget class="QPushButton" name="Bbtn_silabosEnAprobacion">
+                  <property name="geometry">
+                   <rect>
+                    <x>60</x>
+                    <y>80</y>
+                    <width>261</width>
+                    <height>31</height>
+                   </rect>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Sans Serif Collection</family>
+                    <pointsize>11</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Silabos en Aprobación</string>
+                  </property>
+                 </widget>
+                 <widget class="QLabel" name="Blbl_opcion">
+                  <property name="geometry">
+                   <rect>
+                    <x>20</x>
+                    <y>0</y>
+                    <width>371</width>
+                    <height>31</height>
+                   </rect>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Seleccione la opcion que desea visualizar</string>
+                  </property>
+                 </widget>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QFrame" name="frameBB2">
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                 <widget class="QComboBox" name="Bcb_carrera">
+                  <property name="geometry">
+                   <rect>
+                    <x>110</x>
+                    <y>60</y>
+                    <width>171</width>
+                    <height>24</height>
+                   </rect>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <family>Sans Serif Collection</family>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                 </widget>
+                 <widget class="QLabel" name="Blbl_clases">
+                  <property name="geometry">
+                   <rect>
+                    <x>20</x>
+                    <y>10</y>
+                    <width>371</width>
+                    <height>31</height>
+                   </rect>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                   </font>
+                  </property>
+                  <property name="text">
+                   <string>Seleccione carrera /clase</string>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignCenter</set>
+                  </property>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
             <item row="2" column="0">
-             <widget class="QFrame" name="frameD">
+             <widget class="QFrame" name="frameB">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -908,7 +1193,7 @@
                 </rect>
                </property>
                <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;aqui se mostrara idea 2, se oculta el frame &lt;/p&gt;&lt;p&gt;anterior/enabled y la imagen &lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;se oculta el label de la imagen para&lt;/p&gt;&lt;p&gt;mayor visualizaicon de datos a mostrar&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="textFormat">
                 <enum>Qt::AutoText</enum>
