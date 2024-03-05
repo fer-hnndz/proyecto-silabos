@@ -18,7 +18,9 @@ HEADERS += \
     Ingenieria.h \
     Silabo.h \
     Usuario.h \
-    mainwindow.h
+    listaD.h \
+    mainwindow.h \
+    nodoD.h
 
 FORMS += \
     mainwindow.ui
