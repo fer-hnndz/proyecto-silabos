@@ -85,10 +85,15 @@ void MainWindow::on_btn_sesion_clicked()
     if(ui->le_nameE->text().isEmpty() || ui->le_claveE->text().isEmpty() || ui->le_cuentaE->text().isEmpty()){
         QMessageBox::warning(this,"Datos no congruetes","Favor no deje campos sin completar");
     }else{
-        ui->frameE->setVisible(true);
-        ui->frameE2->setEnabled(false);
-        loginDocente=true;
-        ui->tab_3->setEnabled(false);
+        if(ui->le_claveE->text().toStdString()==claveDocente){
+            ui->frameE->setVisible(true);
+            ui->frameE2->setEnabled(false);
+            loginDocente=true;
+            ui->tab_3->setEnabled(false);
+        }else{
+            QMessageBox::warning(this,"Datos no congruetes","Clave incorrecta");
+        }
+
     }
 }
 
@@ -128,6 +133,27 @@ void MainWindow::on_btn_silaboE_clicked()
         QMessageBox::warning(this,"Datos no congruetes","Favor no deje campos sin completar");
     }else{
         QMessageBox::information(this,"Enviado","Datos han sido enviados");
+        //datos usuario
+        string name=ui->le_nameE->text().toStdString();
+        string tipoUsuario="DOCENTE";
+        string numCuenta=ui->le_cuentaE->text().toStdString();
+
+        Usuario nuevo(name, numCuenta, tipoUsuario);
+        listaUsuarios.InsertarFin(nuevo);
+
+        //datos del silabo que SUBE ESE USUARIO
+        string facultad=ui->cb_facultadE->currentText().toStdString();
+        string carrera=ui->cb_carreraE->currentText().toStdString();
+        string clase=ui->le_claseE->text().toStdString();
+        string codigoClase=ui->le_codigoE->text().toStdString();
+        string path=ui->le_pathE->text().toStdString();
+        //ofstream archivo
+        string comentario="";
+
+        Estado estado=Prerevision;
+        //poner numero de revisiones en 0
+        //id seria cantidad en lista mas uno
+
         limpiarEntrega();
     }
 }
@@ -185,11 +211,21 @@ void MainWindow::on_Rbtn_sesion_clicked()
     if(ui->Rle_name->text().isEmpty() || ui->Rle_clave->text().isEmpty() || ui->Rcb_usuario->currentIndex()==0){
         QMessageBox::warning(this,"Datos no congruetes","Favor no deje campos sin completar");
     }else{
-        ui->frameR->setVisible(true);
-        ui->frameR1->setEnabled(false);
-        loginRevision=true;
-        ui->tab_2->setEnabled(false);
-        pruebitaBotonesTab();
+        if((ui->Rcb_usuario->currentIndex()==1 && ui->Rle_clave->text().toStdString()==claveJefe)        ||
+           (ui->Rcb_usuario->currentIndex()==2 && ui->Rle_clave->text().toStdString()==claveCoordinador) ||
+           (ui->Rcb_usuario->currentIndex()==3 && ui->Rle_clave->text().toStdString()==claveIEDD)        ||
+           (ui->Rcb_usuario->currentIndex()==4 && ui->Rle_clave->text().toStdString()==claveConsultor)   ){
+
+            ui->frameR->setVisible(true);
+            ui->frameR1->setEnabled(false);
+            loginRevision=true;
+            ui->tab_2->setEnabled(false);
+            pruebitaBotonesTab();
+
+        }else{
+            QMessageBox::warning(this,"Datos no congruetes","Clave incorrecta");
+        }
+
     }
 }
 
@@ -239,29 +275,35 @@ void MainWindow::on_Rbtn_cambiar_clicked()
 
 void MainWindow::pruebitaBotonesTab()
 {
+    actD = listaUsuarios.PrimPtr;
+    ultD = listaUsuarios.UltPtr;
     ui->RTW_revision->clear();
-    ui->RTW_revision->setColumnCount(4);
-    ui->RTW_revision->setRowCount(4);
-    ui->RTW_revision->setHorizontalHeaderLabels(QStringList() << "dato prueba"<<"estado prueba"<<"documento"<<"Cambiar Estado");
+    ui->RTW_revision->setColumnCount(5);//tab 2 tw_doble
+    ui->RTW_revision->setRowCount(listaUsuarios.Cantidad);
+    ui->RTW_revision->setHorizontalHeaderLabels(QStringList() <<"MODIFCAR"<<"VER DOCX"<< "NOMBRE"<<"TIPO USUARIO"<<"# CUENTA");
 
-    for (int f = 0; f < 5; f++) {
-        ui->RTW_revision->setItem(f, 0, new QTableWidgetItem(QString::number(f)));
-        ui->RTW_revision->setItem(f, 1, new QTableWidgetItem(QString::number(f) +QString::fromStdString(" feliz ") +QString::number(f+1)));
-        ui->RTW_revision->setItem(f, 2, new QTableWidgetItem(QString::fromStdString("VER")));
-        ui->RTW_revision->setItem(f, 3, new QTableWidgetItem(QString::fromStdString("EDITAR")));
-
-    }
+    for (int f = 0; f < listaUsuarios.Cantidad; ++f) {
+          if (actD != nullptr) {
+              ui->RTW_revision->setItem(f, 0, new QTableWidgetItem(QString::fromStdString("EDITAR")));
+              ui->RTW_revision->setItem(f, 1, new QTableWidgetItem(QString::fromStdString("VER")));
+              ui->RTW_revision->setItem(f, 2, new QTableWidgetItem(QString::fromStdString(actD->Dato.getName())));
+              ui->RTW_revision->setItem(f, 3, new QTableWidgetItem(QString::fromStdString(actD->Dato.getTipo())));
+              ui->RTW_revision->setItem(f, 4, new QTableWidgetItem(QString::fromStdString(actD->Dato.getCuenta())));
+              actD = actD->SigPtr;
+          }
+      }
 }
+
 
 void MainWindow::on_RTW_revision_cellClicked(int row, int column)
 {
-    if(column==3){
-        QString dato = ui->RTW_revision->item(row, 0)->text();
+    if(column==0){
+        QString dato = ui->RTW_revision->item(row, 2)->text();
         ui->Rle_seleccion->setText(dato);
-        QString estado = ui->RTW_revision->item(row, 1)->text();
+        QString estado = ui->RTW_revision->item(row, 3)->text();
         ui->Rle_estadoA->setText(estado);
         QMessageBox::information(this, "Informacion seleccionada", "Dato: "+dato+"\nEstado: "+estado);
-    }else if(column ==2){
+    }else if(column ==1){
 //abrir docx
 
     }

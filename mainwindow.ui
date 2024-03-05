@@ -107,7 +107,7 @@
            </palette>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">
@@ -860,6 +860,13 @@ Sesion</string>
                 </widget>
                </item>
               </layout>
+              <zorder>Rbtn_sesion</zorder>
+              <zorder>Rle_clave</zorder>
+              <zorder>Rcb_usuario</zorder>
+              <zorder>Rlbl_name</zorder>
+              <zorder>Rle_name</zorder>
+              <zorder>Rlbl_contra</zorder>
+              <zorder>Rlbl_usuario</zorder>
              </widget>
             </item>
             <item row="0" column="0">
