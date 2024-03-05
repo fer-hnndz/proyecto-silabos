@@ -10,7 +10,7 @@ template<typename tipo> class listaD;
 template<typename tipo>
 class nodoD{ //LISTA DOBLEMENTE ENLAZADA
     friend class listaD<tipo>;
-    friend class cframe;
+    friend class MainWindow;
 private:
     tipo Dato;
     nodoD<tipo> *AntPtr;

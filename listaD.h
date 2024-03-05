@@ -9,7 +9,7 @@ using std::string;
 
 template<typename tipo>
 class listaD{
-    friend class cframe;
+    friend class MainWindow;
 private:
     nodoD<tipo> *PrimPtr;
     nodoD<tipo> *UltPtr;
@@ -41,7 +41,7 @@ listaD<tipo>::~listaD()
         nodoD<tipo> *ptrTemp;
         while (ptrAct != 0) {
             ptrTemp = ptrAct;
-            cout << ptrTemp->Dato << "\n";
+//            cout << ptrTemp->Dato << "\n";
             ptrAct = ptrAct->SigPtr;
             if (ptrAct != nullptr) {
                 ptrAct->AntPtr = nullptr;

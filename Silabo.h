@@ -13,13 +13,18 @@ using std::ofstream;
 template <typename T>
 class Silabo {
     private:
-        int id; // Para mantener track de los archivos
-        int numRevisiones; // Para contar cuantas veces se ha revisado el silabo
+        string facultad;
+        std::vector<Ingenieria> carreras;
         string nombre;
+        string codigoClase;
+        string ruta;
         ofstream archivo;
+
         Estado estado;
         string observacion; // Para que digan que quieren de cambio
-        std::vector<Ingenieria> carreras;
+
+        int id; // Para mantener track de los archivos
+        int numRevisiones; // Para contar cuantas veces se ha revisado el silabo
 
     public:
 

@@ -2,6 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <Usuario.h>
+#include <string>
+#include <listaD.h>
+#include <nodoD.h>
+#include <Estado.h>
+using std::string;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -38,10 +44,17 @@ private slots:
 private:
     Ui::MainWindow *ui;
 
-    bool loginDocente=false,loginRevision=false, revision2=false;
+    bool loginDocente=false,loginRevision=false, revision2=false, loginBoard=false;
     void limpiarEntrega();
     void limpiarRevision();
 
     void pruebitaBotonesTab();
+
+    listaD<Usuario> listaUsuarios;
+    nodoD<Usuario> *actD;
+    nodoD<Usuario> *ultD;
+
+    string claveDocente="teacher123", claveJefe="boss123",claveCoordinador="coordinator123",claveIEDD="what123",claveConsultor="advisor123",claveDecano="dean123",claveDirector="director123";
+
 };
 #endif // MAINWINDOW_H
