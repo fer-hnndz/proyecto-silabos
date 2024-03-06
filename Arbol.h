@@ -47,10 +47,10 @@ class Arbol {
                 return;
             }
 
-            int val = obj->toInt();
-            cout << (val <= data->toInt()) << "\n";
+            int val = obj->toNum();
+            cout << (val <= data->toNum()) << "\n";
             // Ordenar en base al nombre
-            if (val <= data->toInt())
+            if (val <= data->toNum())
             {
                 // Si no hay nada a la izquierda, agregar un arbol con ese silabo
                 if (left == nullptr)
