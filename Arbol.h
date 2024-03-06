@@ -1,71 +1,82 @@
 #ifndef ARBOL_H
 #define ARBOL_H
 #include "nodoD.h"
+#include <Silabo.h>
 
-template <typename T>
 class Arbol {
     private:
-        Arbol<T>* left;
-        Arbol<T>* right;
-        T data;
-
-        // nodoD<T>* root;
-
-        // void AddAux(nodoD<T> *nodo){
-        //     if(nodo->AntPtr->AntPtr==0){
-        //         nodoD<T>* Padre = nodo->AntPtr;
-        //         Padre->AntPtr = nodo;
-        //     }else if(nodo->AntPtr->SigPtr==0){
-        //         nodoD<T>* Padre = nodo->AntPtr;
-        //         Padre->SigPtr = nodo;
-        //     }else if(nodo->SigPtr->AntPtr == 0){
-        //         nodoD<T>* Padre = nodo->SigPtr;
-        //         Padre->AntPtr = nodo;
-        //     }else if(nodo->SigPtr->SigPtr == 0){
-        //         nodoD<T>*Padre = nodo->SigPtr;
-        //         Padre->SigPtr=nodo;
-        //     }else{
-        //         AddAux(nodo->AntPtr);
-        //     }
-
-        // }
+        Arbol* left;
+        Arbol* right;
+        Silabo *data = nullptr;
 
     public:
-        Arbol<T>* getArbolIzq() {
+        Arbol(Silabo* silabo) {
+            this->left = nullptr;
+            this->right = nullptr;
+            this->data = silabo;
+        }
+        Arbol* getArbolIzq() {
             return left;
         }
 
-        Arbol<T>* getArbolDer() {
+        Arbol* getArbolDer() {
             return right;
         }
 
-        T getRaiz() {
+        Silabo* getRaiz() {
             return data;
         }
 
-        void setArbolIzq(Arbol<T> &Arbol) {
-            left = Arbol;
+        void setArbolIzq(Arbol &obj) {
+            left = &obj;
         }
 
-        void setArbolDer(Arbol<T> &Arbol) {
-            right = Arbol;
+        void setArbolDer(Arbol &obj) {
+            right = &obj;
         }
 
-        void setRaiz(T n) {
+        void setRaiz(Silabo* n) {
             data = n;
         }
 
-        // void Add(nodoD<T> nodo){
-        //     if(root==0){
-        //         root = nodo;
-        //     }else if(root->AntPtr==0){
-        //         root->AntPtr = nodo;
-        //     }else if(root->SigPtr==0){
-        //         root->SigPtr = nodo;
-        //     }else{
-        //         AddAux(nodo);
-        //     }
-        // }
+        void add(Silabo *obj)
+        {
+            if (data == nullptr)
+            {
+                data = obj;
+                return;
+            }
+
+            int val = obj->toInt();
+            cout << (val <= data->toInt()) << "\n";
+            // Ordenar en base al nombre
+            if (val <= data->toInt())
+            {
+                // Si no hay nada a la izquierda, agregar un arbol con ese silabo
+                if (left == nullptr)
+                {
+                    left = new Arbol(obj);
+                }
+                else
+                {
+                    // Si hay un arbol a la izquierda, usar ese nuevo subarbol
+                    // para ver donde se tiene que colocar
+                    left->add(obj);
+                }
+            }
+            else
+            {
+                // Tiene que ir a la derecha
+                if (right == nullptr)
+                {
+                    right = new Arbol(obj);
+                }
+                else
+                {
+                    right->add(obj);
+                }
+            }
+        }
 };
 
 

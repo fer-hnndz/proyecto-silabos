@@ -19,8 +19,6 @@ public:
     nodoD(const tipo &);
     nodoD(nodoD<tipo> *, const tipo &, nodoD<tipo> *);
     tipo getDato()const;
-
-
 };
 
 template<typename tipo>

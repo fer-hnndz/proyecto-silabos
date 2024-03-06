@@ -10,7 +10,6 @@
 using std::string;
 using std::ofstream;
 
-template <typename T>
 class Silabo {
     private:
         string facultad;
@@ -28,6 +27,10 @@ class Silabo {
 
     public:
 
+        Silabo(string facultad, std::vector<Ingenieria> carreras, string nombre, string codigoClase, string ruta, ofstream archivo, Estado estado, string observacion, int id, int numRevisiones)
+            : facultad(facultad), carreras(carreras), nombre(nombre), estado(estado), observacion(observacion), id(id), numRevisiones(numRevisiones){
+        }
+
         string getNombre() {
             return nombre;
         }
@@ -36,6 +39,18 @@ class Silabo {
             return estado;
         }
         const std::vector<Ingenieria> &getCarreras() const;
+
+        long toNum()
+        {
+            long val = 0;
+            for (int i = 0; i < nombre.size(); i++)
+            {
+                char c = nombre[i];
+                val += c;
+            }
+
+            return val;
+        }
 };
 
 #endif // SILABO_H
