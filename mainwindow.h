@@ -53,6 +53,7 @@ private:
     listaD<Usuario> listaUsuarios;
     nodoD<Usuario> *actD;
     nodoD<Usuario> *ultD;
+    QList<QString> pdfFilePaths;
 
     string claveDocente="teacher123", claveJefe="boss123",claveCoordinador="coordinator123",claveIEDD="what123",claveConsultor="advisor123",claveDecano="dean123",claveDirector="director123";
 

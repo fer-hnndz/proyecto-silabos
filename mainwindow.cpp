@@ -37,6 +37,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     //hola
     //HOLAAAAA ¿como estan?
+
+     connect(ui->RTW_revision, &QTableWidget::cellDoubleClicked, this, &MainWindow::on_RTW_revision_cellClicked);
+
    ;
 
 }
@@ -159,10 +162,12 @@ void MainWindow::on_btn_silaboE_clicked()
 }
 void MainWindow::on_btn_archivoE_clicked()
 {
-    QString filePath=QFileDialog::getOpenFileName(this, "Explorador de Archivos PDF", QDir::homePath(), "XML Files (*.pdf)");
-    if (!filePath.isEmpty()) {
-        ui->le_pathE->setText(filePath);
-    }
+    QString filePath = QFileDialog::getOpenFileName(this, "Explorador de Archivos PDF", QDir::homePath(), "PDF Files (*.pdf)");
+        if (!filePath.isEmpty()) {
+            pdfFilePaths.append(filePath);
+            // Mostrar la ruta en el cuadro de texto
+            ui->le_pathE->setText(filePath);
+        }
 }
 void MainWindow::on_cb_facultadE_currentIndexChanged(int i)
 {
@@ -303,10 +308,16 @@ void MainWindow::on_RTW_revision_cellClicked(int row, int column)
         QString estado = ui->RTW_revision->item(row, 3)->text();
         ui->Rle_estadoA->setText(estado);
         QMessageBox::information(this, "Informacion seleccionada", "Dato: "+dato+"\nEstado: "+estado);
+
     }else if(column ==1){
+        if (row>=0 && row<pdfFilePaths.size()) {
+                   QString selectedFilePath = pdfFilePaths[row];
+                   QDesktopServices::openUrl(QUrl::fromLocalFile(selectedFilePath));
+               }
+           }
 //abrir docx
 
-    }
+
 
 }
 

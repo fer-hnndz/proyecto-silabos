@@ -62,8 +62,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>886</width>
-         <height>641</height>
+         <width>890</width>
+         <height>652</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
@@ -107,7 +107,7 @@
            </palette>
           </property>
           <property name="currentIndex">
-           <number>2</number>
+           <number>1</number>
           </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">
@@ -1224,7 +1224,7 @@ Sesion</string>
      <x>0</x>
      <y>0</y>
      <width>910</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
    <property name="sizePolicy">
