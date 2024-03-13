@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QImage>
 #include <QPixmap>
@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
+
     ui->setupUi(this);
     //imagenes y label color
     QImage menu(":/prefix/principal proyecto.png");
@@ -136,6 +137,7 @@ void MainWindow::on_btn_silaboE_clicked()
         QMessageBox::warning(this,"Datos no congruetes","Favor no deje campos sin completar");
     }else{
         QMessageBox::information(this,"Enviado","Datos han sido enviados");
+        cantSilabos++;
         //datos usuario
         string name=ui->le_nameE->text().toStdString();
         string tipoUsuario="DOCENTE";
@@ -146,16 +148,24 @@ void MainWindow::on_btn_silaboE_clicked()
 
         //datos del silabo que SUBE ESE USUARIO
         string facultad=ui->cb_facultadE->currentText().toStdString();
+
         string carrera=ui->cb_carreraE->currentText().toStdString();
+        std::vector<string> carreraVector;
+        carreraVector.push_back(carrera);
+
         string clase=ui->le_claseE->text().toStdString();
         string codigoClase=ui->le_codigoE->text().toStdString();
-        string path=ui->le_pathE->text().toStdString();
-        //ofstream archivo
+        QString path=ui->le_pathE->text();
         string comentario="";
 
         Estado estado=Prerevision;
         //poner numero de revisiones en 0
         //id seria cantidad en lista mas uno
+       // Silabo(string facultad, std::vector<Ingenieria> carreras, string nombre, string codigoClase, QString ruta, Estado estado, string observacion, int id, int numRevisiones)
+        Silabo* silaboEjemplo = new Silabo(facultad,carreraVector,name,codigoClase,path,estado,"",cantSilabos,0);
+
+           this->arbolSilabo->add(silaboEjemplo);
+
 
         limpiarEntrega();
     }
@@ -282,10 +292,12 @@ void MainWindow::pruebitaBotonesTab()
 {
     actD = listaUsuarios.PrimPtr;
     ultD = listaUsuarios.UltPtr;
+
+    actS = arbolSilabo;
     ui->RTW_revision->clear();
-    ui->RTW_revision->setColumnCount(5);//tab 2 tw_doble
+    ui->RTW_revision->setColumnCount(6);//tab 2 tw_doble
     ui->RTW_revision->setRowCount(listaUsuarios.Cantidad);
-    ui->RTW_revision->setHorizontalHeaderLabels(QStringList() <<"MODIFCAR"<<"VER DOCX"<< "NOMBRE"<<"TIPO USUARIO"<<"# CUENTA");
+    ui->RTW_revision->setHorizontalHeaderLabels(QStringList() <<"MODIFCAR"<<"VER DOCX"<< "NOMBRE"<<"TIPO USUARIO"<<"# CUENTA"<<"hhhh");
 
     for (int f = 0; f < listaUsuarios.Cantidad; ++f) {
           if (actD != nullptr) {
@@ -294,6 +306,15 @@ void MainWindow::pruebitaBotonesTab()
               ui->RTW_revision->setItem(f, 2, new QTableWidgetItem(QString::fromStdString(actD->Dato.getName())));
               ui->RTW_revision->setItem(f, 3, new QTableWidgetItem(QString::fromStdString(actD->Dato.getTipo())));
               ui->RTW_revision->setItem(f, 4, new QTableWidgetItem(QString::fromStdString(actD->Dato.getCuenta())));
+
+              if (actS->getRaiz() != nullptr){
+                ui->RTW_revision->setItem(f, 5, new QTableWidgetItem(actS->getRaiz()->getEstado()));
+              }else{
+                  QMessageBox::warning(this,"Datos no congruetes","No hay raiz");
+
+              }
+
+
               actD = actD->SigPtr;
           }
       }

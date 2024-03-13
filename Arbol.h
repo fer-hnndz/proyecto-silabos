@@ -10,6 +10,7 @@ class Arbol {
         Silabo *data = nullptr;
 
     public:
+
         Arbol(Silabo* silabo) {
             this->left = nullptr;
             this->right = nullptr;
