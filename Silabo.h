@@ -6,6 +6,7 @@
 #include <fstream>
 #include <Estado.h>
 #include <vector>
+#include <QString>
 
 using std::string;
 using std::ofstream;
@@ -13,11 +14,10 @@ using std::ofstream;
 class Silabo {
     private:
         string facultad;
-        std::vector<Ingenieria> carreras;
+        std::vector<string> carreras;
         string nombre;
         string codigoClase;
-        string ruta;
-        ofstream archivo;
+        QString ruta;
 
         Estado estado;
         string observacion; // Para que digan que quieren de cambio
@@ -27,30 +27,99 @@ class Silabo {
 
     public:
 
-        Silabo(string facultad, std::vector<Ingenieria> carreras, string nombre, string codigoClase, string ruta, ofstream archivo, Estado estado, string observacion, int id, int numRevisiones)
+        Silabo(string facultad, std::vector<string> carreras, string nombre, string codigoClase, QString ruta, Estado estado, string observacion, int id, int numRevisiones)
             : facultad(facultad), carreras(carreras), nombre(nombre), estado(estado), observacion(observacion), id(id), numRevisiones(numRevisiones){
         }
-
-        string getNombre() {
-            return nombre;
-        }
-
-        Estado getEstado(){ // Para obtener el estado asignado desde el enum
-            return estado;
-        }
-        const std::vector<Ingenieria> &getCarreras() const;
-
-        long toNum()
+        ~Silabo()
         {
-            long val = 0;
-            for (int i = 0; i < nombre.size(); i++)
-            {
-                char c = nombre[i];
-                val += c;
-            }
 
-            return val;
         }
+
+        string getFacultad() const {
+              return facultad;
+          }
+
+          const std::vector<string>& getCarreras() const {
+              return carreras;
+          }
+
+          string getNombre() const {
+              return nombre;
+          }
+
+          string getCodigoClase() const {
+              return codigoClase;
+          }
+
+          QString getRuta() const {
+              return ruta;
+          }
+
+
+          Estado getEstado() const {
+              return estado;
+          }
+
+          string getObservacion() const {
+              return observacion;
+          }
+
+          int getId() const {
+              return id;
+          }
+
+          int getNumRevisiones() const {
+              return numRevisiones;
+          }
+
+          // Setters
+          void setFacultad(const string& nuevaFacultad) {
+              facultad = nuevaFacultad;
+          }
+
+          void setCarreras(const std::vector<string>& nuevasCarreras) {
+              carreras = nuevasCarreras;
+          }
+
+          void setNombre(const string& nuevoNombre) {
+              nombre = nuevoNombre;
+          }
+
+          void setCodigoClase(const string& nuevoCodigoClase) {
+              codigoClase = nuevoCodigoClase;
+          }
+
+          void setRuta(const QString& nuevaRuta) {
+              ruta = nuevaRuta;
+          }
+
+
+          void setEstado(Estado nuevoEstado) {
+              estado = nuevoEstado;
+          }
+
+          void setObservacion(const string& nuevaObservacion) {
+              observacion = nuevaObservacion;
+          }
+
+          void setId(int nuevoId) {
+              id = nuevoId;
+          }
+
+          void setNumRevisiones(int nuevoNumRevisiones) {
+              numRevisiones = nuevoNumRevisiones;
+          }
+
+          long toNum() const {
+              long val = 0;
+              for (int i = 0; i < nombre.size(); i++) {
+                  char c = nombre[i];
+                  val += c;
+              }
+
+              return val;
+          }
+
 };
 
 #endif // SILABO_H

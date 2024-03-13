@@ -7,6 +7,7 @@
 #include <listaD.h>
 #include <nodoD.h>
 #include <Estado.h>
+#include <Arbol.h>
 using std::string;
 
 QT_BEGIN_NAMESPACE
@@ -54,6 +55,13 @@ private:
     nodoD<Usuario> *actD;
     nodoD<Usuario> *ultD;
     QList<QString> pdfFilePaths;
+
+    Arbol *actS;
+    Arbol *arbolSilabo = new Arbol(nullptr);
+
+
+
+    int cantSilabos=0;
 
     string claveDocente="teacher123", claveJefe="boss123",claveCoordinador="coordinator123",claveIEDD="what123",claveConsultor="advisor123",claveDecano="dean123",claveDirector="director123";
 
