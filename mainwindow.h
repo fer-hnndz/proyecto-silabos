@@ -22,6 +22,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+
 private slots:
     void on_btn_entregarM_clicked();
     void on_btn_revision_clicked();
@@ -42,12 +43,18 @@ private slots:
 
     void on_RTW_revision_cellClicked(int row, int column);
 
+    void on_Bbtn_sesion_clicked();
+
+    void on_Bbtn_cerrar_clicked();
+
 private:
     Ui::MainWindow *ui;
 
     bool loginDocente=false,loginRevision=false, revision2=false, loginBoard=false;
     void limpiarEntrega();
     void limpiarRevision();
+    void limpiarBoard();
+    void recorrerArbolParaTabla(Arbol *nodo, int &fila,nodoD<Usuario> *actD);
 
     void pruebitaBotonesTab();
 
@@ -66,4 +73,6 @@ private:
     string claveDocente="teacher123", claveJefe="boss123",claveCoordinador="coordinator123",claveIEDD="what123",claveConsultor="advisor123",claveDecano="dean123",claveDirector="director123";
 
 };
+
+
 #endif // MAINWINDOW_H

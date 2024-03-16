@@ -14,12 +14,12 @@ using std::ofstream;
 class Silabo {
     private:
         string facultad;
-        std::vector<string> carreras;
+        string carrera;
         string nombre;
         string codigoClase;
         QString ruta;
 
-        Estado estado;
+        string estado;
         string observacion; // Para que digan que quieren de cambio
 
         int id; // Para mantener track de los archivos
@@ -27,20 +27,20 @@ class Silabo {
 
     public:
 
-        Silabo(string facultad, std::vector<string> carreras, string nombre, string codigoClase, QString ruta, Estado estado, string observacion, int id, int numRevisiones)
-            : facultad(facultad), carreras(carreras), nombre(nombre), estado(estado), observacion(observacion), id(id), numRevisiones(numRevisiones){
+        Silabo(string facultad, string carrera, string nombre, string codigoClase, QString ruta, string estado, string observacion, int id, int numRevisiones)
+            : facultad(facultad), carrera(carrera), nombre(nombre), codigoClase(codigoClase),ruta(ruta),estado(estado), observacion(observacion), id(id), numRevisiones(numRevisiones){
         }
         ~Silabo()
         {
 
         }
 
-        string getFacultad() const {
+          string getFacultad() const {
               return facultad;
           }
 
-          const std::vector<string>& getCarreras() const {
-              return carreras;
+          string getCarreras() const {
+              return carrera;
           }
 
           string getNombre() const {
@@ -56,7 +56,7 @@ class Silabo {
           }
 
 
-          Estado getEstado() const {
+          string getEstado() const {
               return estado;
           }
 
@@ -77,8 +77,8 @@ class Silabo {
               facultad = nuevaFacultad;
           }
 
-          void setCarreras(const std::vector<string>& nuevasCarreras) {
-              carreras = nuevasCarreras;
+          void setCarreras(const string nuevasCarreras) {
+              carrera = nuevasCarreras;
           }
 
           void setNombre(const string& nuevoNombre) {
@@ -94,7 +94,7 @@ class Silabo {
           }
 
 
-          void setEstado(Estado nuevoEstado) {
+          void setEstado(const string& nuevoEstado) {
               estado = nuevoEstado;
           }
 

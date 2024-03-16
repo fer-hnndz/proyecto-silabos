@@ -62,8 +62,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>890</width>
-         <height>652</height>
+         <width>886</width>
+         <height>641</height>
         </rect>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
@@ -107,7 +107,7 @@
            </palette>
           </property>
           <property name="currentIndex">
-           <number>1</number>
+           <number>2</number>
           </property>
           <widget class="QWidget" name="tab">
            <attribute name="title">
@@ -801,18 +801,6 @@ Sesion</string>
                  </item>
                 </widget>
                </item>
-               <item row="0" column="0">
-                <widget class="QLabel" name="Rlbl_name">
-                 <property name="font">
-                  <font>
-                   <pointsize>12</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string>Nombre Completo:</string>
-                 </property>
-                </widget>
-               </item>
                <item row="0" column="1">
                 <widget class="QLineEdit" name="Rle_name">
                  <property name="font">
@@ -856,6 +844,18 @@ Sesion</string>
                  </property>
                  <property name="text">
                   <string>Tipo de usuario:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="Rlbl_name">
+                 <property name="font">
+                  <font>
+                   <pointsize>12</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Nombre Completo:</string>
                  </property>
                 </widget>
                </item>
@@ -1055,128 +1055,99 @@ Sesion</string>
                  <property name="frameShadow">
                   <enum>QFrame::Raised</enum>
                  </property>
-                 <widget class="QPushButton" name="Bbtn_silabosFaltantes">
-                  <property name="geometry">
-                   <rect>
-                    <x>70</x>
-                    <y>120</y>
-                    <width>241</width>
-                    <height>31</height>
-                   </rect>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <family>Sans Serif Collection</family>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Silabos Faltantes</string>
-                  </property>
-                 </widget>
-                 <widget class="QPushButton" name="Bbtn_silabosCompletados">
-                  <property name="geometry">
-                   <rect>
-                    <x>70</x>
-                    <y>40</y>
-                    <width>241</width>
-                    <height>31</height>
-                   </rect>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <family>Sans Serif Collection</family>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Silabos Completados</string>
-                  </property>
-                 </widget>
-                 <widget class="QPushButton" name="Bbtn_silabosEnAprobacion">
-                  <property name="geometry">
-                   <rect>
-                    <x>60</x>
-                    <y>80</y>
-                    <width>261</width>
-                    <height>31</height>
-                   </rect>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <family>Sans Serif Collection</family>
-                    <pointsize>11</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Silabos en Aprobación</string>
-                  </property>
-                 </widget>
-                 <widget class="QLabel" name="Blbl_opcion">
-                  <property name="geometry">
-                   <rect>
-                    <x>20</x>
-                    <y>0</y>
-                    <width>371</width>
-                    <height>31</height>
-                   </rect>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>12</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Seleccione la opcion que desea visualizar</string>
-                  </property>
-                 </widget>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QFrame" name="frameBB2">
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                 <widget class="QComboBox" name="Bcb_carrera">
-                  <property name="geometry">
-                   <rect>
-                    <x>110</x>
-                    <y>60</y>
-                    <width>171</width>
-                    <height>24</height>
-                   </rect>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <family>Sans Serif Collection</family>
-                    <pointsize>12</pointsize>
-                   </font>
-                  </property>
-                 </widget>
-                 <widget class="QLabel" name="Blbl_clases">
-                  <property name="geometry">
-                   <rect>
-                    <x>20</x>
-                    <y>10</y>
-                    <width>371</width>
-                    <height>31</height>
-                   </rect>
-                  </property>
-                  <property name="font">
-                   <font>
-                    <pointsize>12</pointsize>
-                   </font>
-                  </property>
-                  <property name="text">
-                   <string>Seleccione carrera /clase</string>
-                  </property>
-                  <property name="alignment">
-                   <set>Qt::AlignCenter</set>
-                  </property>
-                 </widget>
+                 <layout class="QGridLayout" name="gridLayout_14">
+                  <item row="0" column="0">
+                   <widget class="QLabel" name="Blbl_name">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Nombre Completo:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="1">
+                   <widget class="QLineEdit" name="Ble_name">
+                    <property name="font">
+                     <font>
+                      <pointsize>11</pointsize>
+                     </font>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QLabel" name="Blbl_usuario">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Tipo de usuario:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="1" column="1">
+                   <widget class="QComboBox" name="Bcb_usuario">
+                    <property name="font">
+                     <font>
+                      <pointsize>11</pointsize>
+                     </font>
+                    </property>
+                    <item>
+                     <property name="text">
+                      <string>...</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Directores</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>Decanos</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="Blbl_contra">
+                    <property name="font">
+                     <font>
+                      <pointsize>12</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Clave:</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <widget class="QLineEdit" name="Ble_clave">
+                    <property name="font">
+                     <font>
+                      <pointsize>11</pointsize>
+                     </font>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <widget class="QPushButton" name="Bbtn_sesion">
+                    <property name="font">
+                     <font>
+                      <family>Sans Serif Collection</family>
+                      <pointsize>11</pointsize>
+                     </font>
+                    </property>
+                    <property name="text">
+                     <string>Iniciar Sesion</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
                 </widget>
                </item>
               </layout>
@@ -1190,22 +1161,24 @@ Sesion</string>
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
-              <widget class="QLabel" name="lblInfoIdea_2">
-               <property name="geometry">
-                <rect>
-                 <x>330</x>
-                 <y>10</y>
-                 <width>411</width>
-                 <height>151</height>
-                </rect>
-               </property>
-               <property name="text">
-                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;se oculta el label de la imagen para&lt;/p&gt;&lt;p&gt;mayor visualizaicon de datos a mostrar&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-               </property>
-               <property name="textFormat">
-                <enum>Qt::AutoText</enum>
-               </property>
-              </widget>
+              <layout class="QGridLayout" name="gridLayout_15">
+               <item row="0" column="0">
+                <widget class="QTreeWidget" name="treeWidget">
+                 <column>
+                  <property name="text">
+                   <string notr="true">1</string>
+                  </property>
+                 </column>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QPushButton" name="Bbtn_cerrar">
+                 <property name="text">
+                  <string>Cerrar Sesion</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
            </layout>
@@ -1224,7 +1197,7 @@ Sesion</string>
      <x>0</x>
      <y>0</y>
      <width>910</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
    <property name="sizePolicy">
