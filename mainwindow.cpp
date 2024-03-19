@@ -210,13 +210,13 @@ void MainWindow::on_cb_facultadE_currentIndexChanged(int i)
     QStringList items;
     ui->cb_carreraE->clear();
     if(i==1){
-        items<<"..."<<"Biomédica"<<"Ciena de datos e inteligencia artificial"<<"Civil"<<"Energía"<<"Industrial y de sistemas"<<"Mecatrónica"<<"Sistemas Computacionales"<<"Telecomunicaciones y electrónica";
+        items<<"..."<<"Biomedica"<<"Ciencia de datos e inteligencia artificial"<<"Civil"<<"Energia"<<"Industrial y de sistemas"<<"Mecatronica"<<"Sistemas Computacionales"<<"Telecomunicaciones y electronica";
         ui->cb_carreraE->addItems(items);
     }else if(i==2){
-        items<<"..."<<"Administracion de la hospitalidad y el tursimo"<<"Administración industrial e inteligencia de negocios"<<"Administración industrial y emprendimiento"<<"Industrial y operaciones"<<"Derecho"<<"Finanzas y Economia"<<"Mercadotecnia y negocios internacionales"<<"Relaciones internacionales";
+        items<<"..."<<"Administracion de la hospitalidad y el tursimo"<<"Administracion industrial e inteligencia de negocios"<<"Administracion industrial y emprendimiento"<<"Industrial y operaciones"<<"Derecho"<<"Finanzas y Economia"<<"Mercadotecnia y negocios internacionales"<<"Relaciones internacionales";
         ui->cb_carreraE->addItems(items);
     }else if(i==3){
-        items<<"..."<<"Animación digital y diseño interactivo"<<"Arquitectura"<<"Comunicación audiovisual y publicitaria"<<"Diseño de modas"<<"Diseño Grafico"<<"Gastronomia";
+        items<<"..."<<"Animacion digital y diseño interactivo"<<"Arquitectura"<<"Comunicacion audiovisual y publicitaria"<<"Diseno de modas"<<"Diseno Grafico"<<"Gastronomia";
         ui->cb_carreraE->addItems(items);
     }
 }
@@ -298,6 +298,7 @@ void MainWindow::limpiarRevision()
 void MainWindow::on_Rbtn_cerrar_clicked()
 {
     loginRevision=false;
+     ui->RTW_revision->setRowCount(0);
     ui->tab_2->setEnabled(true);
     limpiarRevision();
     ui->tabWidget->setCurrentIndex(0);
@@ -325,7 +326,6 @@ void MainWindow::pruebitaBotonesTab()
     ui->RTW_revision->setColumnCount(10);//tab 2 tw_doble
 
     ui->RTW_revision->setHorizontalHeaderLabels(QStringList() <<"MODIFCAR"<<"VER DOCX"<<"ESTADO"<<"INGRESADO POR"<<"# CUENTA"<<"FACULTAD"<<"CARRERA"<<"CODIGO CLASE"<<"PATH"<<"OBSERVACION");
-
     int fila = 0;
 
     recorrerArbolParaTabla(arbolSilabo, fila,listaUsuarios.PrimPtr);
@@ -336,32 +336,44 @@ void MainWindow::recorrerArbolParaTabla(Arbol *nodo, int &fila,nodoD<Usuario> *a
     if (nodo == nullptr || actD==0) {
         return;
     }
+    bool mostrar=false;
 
-    // Recorrer el subárbol izquierdo
     recorrerArbolParaTabla(nodo->getArbolIzq(), fila,actD);
 
-    // Mostrar los datos del nodo actual en la fila correspondiente de la tabla
     Silabo *silabo = nodo->getRaiz();
-    ui->RTW_revision->setRowCount(fila + 1);
+
     if(actD != nullptr){
+        if((ui->Rcb_usuario->currentIndex()==1 || ui->Rcb_usuario->currentIndex()==2)&& (silabo->getEstado()=="Prerevision" || silabo->getEstado()=="Devolver a Academia")){
+            mostrar=true;
+        }else if(ui->Rcb_usuario->currentIndex()==3 && silabo->getEstado()=="Cargar silabo (Enviar a IEDD)"){
+            mostrar=true;
+        }else if(ui->Rcb_usuario->currentIndex()==4 && silabo->getNumRevisiones()>0){
+            mostrar=true;
+        }else{
+            mostrar=false;
+        }
 
+        if(mostrar){
+            ui->RTW_revision->setRowCount(fila + 1);
+            ui->RTW_revision->setItem(fila, 0, new QTableWidgetItem(QString::fromStdString("EDITAR")));
+            ui->RTW_revision->setItem(fila, 1, new QTableWidgetItem(QString::fromStdString("VER")));
+            ui->RTW_revision->setItem(fila, 2, new QTableWidgetItem(QString::fromStdString(silabo->getEstado())));
+            ui->RTW_revision->setItem(fila, 3, new QTableWidgetItem(QString::fromStdString(actD->Dato.getName())));
+            ui->RTW_revision->setItem(fila, 4, new QTableWidgetItem(QString::fromStdString(actD->Dato.getCuenta())));
+            ui->RTW_revision->setItem(fila, 5, new QTableWidgetItem(QString::fromStdString(silabo->getFacultad())));
+            ui->RTW_revision->setItem(fila, 6, new QTableWidgetItem(QString::fromStdString(silabo->getCarreras())));
+            ui->RTW_revision->setItem(fila, 7, new QTableWidgetItem(QString::fromStdString(silabo->getCodigoClase())));
+            ui->RTW_revision->setItem(fila, 8, new QTableWidgetItem(silabo->getRuta()));
+            ui->RTW_revision->setItem(fila, 9, new QTableWidgetItem(QString::fromStdString(silabo->getObservacion())));
+            fila++;
+        }
 
-        ui->RTW_revision->setItem(fila, 0, new QTableWidgetItem(QString::fromStdString("EDITAR")));
-        ui->RTW_revision->setItem(fila, 1, new QTableWidgetItem(QString::fromStdString("VER")));
-        ui->RTW_revision->setItem(fila, 2, new QTableWidgetItem(QString::fromStdString(silabo->getEstado())));
-        ui->RTW_revision->setItem(fila, 3, new QTableWidgetItem(QString::fromStdString(actD->Dato.getName())));
-        ui->RTW_revision->setItem(fila, 4, new QTableWidgetItem(QString::fromStdString(actD->Dato.getCuenta())));
-        ui->RTW_revision->setItem(fila, 5, new QTableWidgetItem(QString::fromStdString(silabo->getFacultad())));
-        ui->RTW_revision->setItem(fila, 6, new QTableWidgetItem(QString::fromStdString(silabo->getCarreras())));
-        ui->RTW_revision->setItem(fila, 7, new QTableWidgetItem(QString::fromStdString(silabo->getCodigoClase())));
-        ui->RTW_revision->setItem(fila, 8, new QTableWidgetItem(silabo->getRuta()));
-        ui->RTW_revision->setItem(fila, 9, new QTableWidgetItem(QString::fromStdString(silabo->getObservacion())));
 
    }
     // Incrementar el contador de filas
-    fila++;
+ //   fila++;
     actD = actD->SigPtr;
-    // Recorrer el subárbol derecho
+
     recorrerArbolParaTabla(nodo->getArbolDer(), fila,actD);
 }
 
