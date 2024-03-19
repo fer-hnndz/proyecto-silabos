@@ -3,13 +3,16 @@
 #include <nodoD.h>
 #include <iostream>
 #include <QMessageBox>
-
+#include <Usuario.h>
+#include <fstream>
 using std::cout;
 using std::string;
+
 
 template<typename tipo>
 class listaD{
     friend class MainWindow;
+    friend class Arbol;
 private:
     nodoD<tipo> *PrimPtr;
     nodoD<tipo> *UltPtr;
@@ -24,7 +27,9 @@ public:
 
     bool GuardarEnArchivo(string Nombre)const;
     bool ImportarArchivo(string Nombre);
-
+    void guardarExcelUsuarios(std::ofstream &file, listaD<Usuario> &listaUsuarios);
+    void guardarUsuarios(listaD<Usuario> &listaUsuarios);
+    void cargarUsuarios();
 
 };
 
@@ -81,5 +86,61 @@ template<typename tipo>
 bool listaD<tipo>::Vacia() const
 {
     return PrimPtr==nullptr;
+}
+
+template<typename tipo>
+void listaD<tipo>::guardarExcelUsuarios(std::ofstream &file, listaD<Usuario> &listaUsuarios)
+{
+    nodoD<Usuario> *tmp = listaUsuarios.PrimPtr;
+    while (tmp != nullptr) {
+        Usuario usuario = tmp->getDato();
+        file << usuario.getName() << "\t"
+             << usuario.getCuenta() << "\t"
+             << usuario.getTipo() << "\n";
+        tmp = tmp->SigPtr;
+    }
+}
+
+template<typename tipo>
+void listaD<tipo>::guardarUsuarios(listaD<Usuario> &listaUsuarios)
+{
+    std::ifstream file;
+    file.open("usuarios.xls");
+    file.close();
+    std::ofstream File("usuarios.xls");
+    if (File.is_open()) {
+        File << "Nombre\tCuenta\tClase Ingresada\n";
+        guardarExcelUsuarios(File, listaUsuarios);
+        File.close();
+        cout << "XLS exportado.\n";
+    } else {
+    std::cerr << "Error en el archivo.\n";
+    }
+}
+
+template<typename tipo>
+void listaD<tipo>::cargarUsuarios()
+{
+    std::ifstream file("usuarios.xls");
+        if (file.is_open()) {
+
+            string header;
+            std::getline(file, header);
+
+            string nombre, cuenta, code;
+            while (file >> nombre >> cuenta >> code) {
+                Usuario nuevo(nombre, cuenta, code);
+                InsertarFin(nuevo);
+            }
+            file.close();
+            cout << "Usuarios cargados desde el archivo.\n";
+        } else {
+            std::cerr << "Error al abrir el archivo.\n";
+        }
+     if (std::remove("usuarios.xls") != 0 ) {
+             std::cerr << "Error al eliminar el archivo.\n";
+         } else {
+             cout << "Archivo eliminado exitosamente.\n";
+         }
 }
 #endif // LISTAD_H

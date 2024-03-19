@@ -2,15 +2,19 @@
 #define ARBOL_H
 #include "nodoD.h"
 #include <Silabo.h>
+#include <Usuario.h>
+#include <listaD.h>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <cstdio>
+#include <QString>
 using std::ofstream;
 using std::ios;
 using std::string;
 using std::ios;
+using std::cout;
 
 
 class Arbol {
@@ -88,69 +92,58 @@ class Arbol {
                 }
             }
         }
-        void extraer() {
+        void extraerArbol(Arbol* arbol) {
 
-            std::ifstream file("data.xls");
-                if (!file.is_open()) {
-                    std::cerr << "Error al abrir el archivo.\n";
-                    return;
+
+            std::ifstream file("silabo.xls");
+            if (file.is_open()) {
+                string header;
+                std::getline(file, header);
+
+                string facultad, carrera, nombre, codigoClase, ruta, estado, observacion;
+                int id, numRevisiones;
+                while (file >> facultad >> carrera >> nombre >> codigoClase >> ruta >> estado >> observacion >> id >> numRevisiones) {
+                    Silabo* nuevoSilabo = new Silabo(facultad, carrera, nombre, codigoClase, QString::fromStdString(ruta), estado, observacion, id, numRevisiones);
+                    this->add(nuevoSilabo);
                 }
-
-                std::string line;
-                while (std::getline(file, line)) {
-                    std::istringstream ss(line);
-                    std::string facultad, carrera, nombre, codigoClase, ruta, estado, observacion;
-                    int id, numRevisiones;
-
-                    if (!(ss >> facultad >> carrera >> nombre >> codigoClase >> ruta >> estado >> observacion >> id >> numRevisiones)) {
-                        std::cerr << "Error al leer datos de la línea.\n";
-                        break;
-                    }
-
-                    Silabo *silabo = new Silabo(facultad, carrera, nombre, codigoClase, QString::fromStdString(ruta), estado, observacion, id, numRevisiones);
-
-                    add(silabo);
-                }
-             file.close();
-            if (std::remove("data.xls") != 0 ) {
-                    std::cerr << "Error al eliminar el archivo.\n";
-                } else {
-                    std::cout << "Archivo eliminado exitosamente.\n";
-                }
-
-
+                file.close();
+                std::cout << "Silabos cargados desde el archivo.\n";
+            } else {
+                std::cerr << "Error al abrir el archivo.\n";
+            }
         }
+
 
         void guardarExcel(std::ofstream &file, Arbol *nodo) {
-            if (nodo == nullptr) {
+            if (nodo == nullptr ) {
                 return;
             }
+               Silabo *silabo = nodo->getRaiz();
+                   file
+                        << silabo->getFacultad() << "\t"
+                        << silabo->getCarreras() << "\t"
+                        << silabo->getNombre() << "\t"
+                        << silabo->getCodigoClase() << "\t"
+                        << silabo->getRuta().toStdString() << "\t"
+                        << silabo->getEstado() << "\t"
+                        << silabo->getObservacion() << "\t"
+                        << silabo->getId() << "\t"
+                        << silabo->getNumRevisiones() << "\t" << "\n";
 
-            Silabo *silabo = nodo->getRaiz();
 
-            file << silabo->getFacultad() << "\t"
-                 << silabo->getCarreras() << "\t"
-                 << silabo->getNombre() << "\t"
-                 << silabo->getCodigoClase() << "\t"
-                 << silabo->getRuta().toStdString() << "\t"
-                 << silabo->getEstado()<< "\t"
-                 << silabo->getObservacion() << "\t"
-                 << silabo->getId() << "\t"
-                 << silabo->getNumRevisiones() << "\t"<<"\n";
+                guardarExcel(file, nodo->getArbolIzq());
+                guardarExcel(file, nodo->getArbolDer());
 
-            // Llamar recursivamente para los hijos del nodo
-            guardarExcel(file, nodo->getArbolIzq());
-            guardarExcel(file, nodo->getArbolDer());
         }
+
 
         void guardar() {
             std::ifstream file;
-            file.open("data.xls");
+            file.open("silabo.xls");
             file.close();
-            std::ofstream File("data.xls");
+            std::ofstream File("silabo.xls");
             if (File.is_open()) {
-                // Escribir los encabezados
-                File << "Facultad\tCarrera\tNombre\tCodigo de Clase\tRuta\tEstado\tObservacion\tID\tNumero de Revisiones\n";
+                File << "Facultad\tCarrera\tIngresado Por\tCodigo de Clase\tRuta\tEstado\tObservacion\tID\tNumero de Revisiones\n";
                 guardarExcel(File,this);
                 File.close();
                 std::cout << "XLS exportado.\n";

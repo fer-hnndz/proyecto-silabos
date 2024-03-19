@@ -11,6 +11,7 @@ template<typename tipo>
 class nodoD{ //LISTA DOBLEMENTE ENLAZADA
     friend class listaD<tipo>;
     friend class MainWindow;
+    friend class Arbol;
 private:
     tipo Dato;
     nodoD<tipo> *AntPtr;

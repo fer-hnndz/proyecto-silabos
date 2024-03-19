@@ -48,12 +48,15 @@ MainWindow::MainWindow(QWidget *parent)
 
      connect(ui->RTW_revision, &QTableWidget::cellDoubleClicked, this, &MainWindow::on_RTW_revision_cellClicked);
 
-   ;
+   listaUsuarios.cargarUsuarios();
+   this->arbolSilabo->extraerArbol(this->arbolSilabo);
 
 }
 
 MainWindow::~MainWindow()
 {
+    listaUsuarios.guardarUsuarios(listaUsuarios);
+    this->arbolSilabo->guardar();
     delete ui;
 }
 
@@ -165,8 +168,10 @@ void MainWindow::on_btn_silaboE_clicked()
         string tipoUsuario="DOCENTE";
         string numCuenta=ui->le_cuentaE->text().toStdString();
 
-        Usuario nuevo(name, numCuenta, tipoUsuario);
+        string codigoClase=ui->le_codigoE->text().toStdString();
+        Usuario nuevo(name, numCuenta, codigoClase);
         listaUsuarios.InsertarFin(nuevo);
+        listaUsuarios.guardarUsuarios(listaUsuarios);
 
         //datos del silabo que SUBE ESE USUARIO
         string facultad=ui->cb_facultadE->currentText().toStdString();
@@ -175,7 +180,6 @@ void MainWindow::on_btn_silaboE_clicked()
 
 
         string clase=ui->le_claseE->text().toStdString();
-        string codigoClase=ui->le_codigoE->text().toStdString();
         QString path=ui->le_pathE->text();
         string comentario="";
 
@@ -183,7 +187,7 @@ void MainWindow::on_btn_silaboE_clicked()
         //poner numero de revisiones en 0
         //id seria cantidad en lista mas uno
         // Silabo(string facultad, std::vector<Ingenieria> carreras, string nombre, string codigoClase, QString ruta, Estado estado, string observacion, int id, int numRevisiones)
-        Silabo* silaboEjemplo = new Silabo(facultad,carrera,name,codigoClase,path,"Prerevision","",cantSilabos,0);
+        Silabo* silaboEjemplo = new Silabo(facultad,carrera,numCuenta,codigoClase,path,"Prerevision","h",cantSilabos,0);
 
         this->arbolSilabo->add(silaboEjemplo);
         this->arbolSilabo->guardar();
@@ -248,7 +252,7 @@ void MainWindow::on_Rbtn_sesion_clicked()
     if(ui->Rle_name->text().isEmpty() || ui->Rle_clave->text().isEmpty() || ui->Rcb_usuario->currentIndex()==0){
         QMessageBox::warning(this,"Datos no congruetes","Favor no deje campos sin completar");
     }else{
-        this->arbolSilabo->extraer();
+        //this->arbolSilabo->extraer();
         if((ui->Rcb_usuario->currentIndex()==1 && ui->Rle_clave->text().toStdString()==claveJefe)        ||
            (ui->Rcb_usuario->currentIndex()==2 && ui->Rle_clave->text().toStdString()==claveCoordinador) ||
            (ui->Rcb_usuario->currentIndex()==3 && ui->Rle_clave->text().toStdString()==claveIEDD)        ||
@@ -339,27 +343,28 @@ void MainWindow::recorrerArbolParaTabla(Arbol *nodo, int &fila,nodoD<Usuario> *a
     // Mostrar los datos del nodo actual en la fila correspondiente de la tabla
     Silabo *silabo = nodo->getRaiz();
     ui->RTW_revision->setRowCount(fila + 1);
-   // if(actD != nullptr){
+    if(actD != nullptr){
 
 
         ui->RTW_revision->setItem(fila, 0, new QTableWidgetItem(QString::fromStdString("EDITAR")));
         ui->RTW_revision->setItem(fila, 1, new QTableWidgetItem(QString::fromStdString("VER")));
         ui->RTW_revision->setItem(fila, 2, new QTableWidgetItem(QString::fromStdString(silabo->getEstado())));
-    //    ui->RTW_revision->setItem(fila, 3, new QTableWidgetItem(QString::fromStdString(actD->Dato.getName())));
-    //    ui->RTW_revision->setItem(fila, 4, new QTableWidgetItem(QString::fromStdString(actD->Dato.getCuenta())));
+        ui->RTW_revision->setItem(fila, 3, new QTableWidgetItem(QString::fromStdString(actD->Dato.getName())));
+        ui->RTW_revision->setItem(fila, 4, new QTableWidgetItem(QString::fromStdString(actD->Dato.getCuenta())));
         ui->RTW_revision->setItem(fila, 5, new QTableWidgetItem(QString::fromStdString(silabo->getFacultad())));
         ui->RTW_revision->setItem(fila, 6, new QTableWidgetItem(QString::fromStdString(silabo->getCarreras())));
         ui->RTW_revision->setItem(fila, 7, new QTableWidgetItem(QString::fromStdString(silabo->getCodigoClase())));
         ui->RTW_revision->setItem(fila, 8, new QTableWidgetItem(silabo->getRuta()));
         ui->RTW_revision->setItem(fila, 9, new QTableWidgetItem(QString::fromStdString(silabo->getObservacion())));
 
-  //  }
+   }
     // Incrementar el contador de filas
     fila++;
-  //  actD = actD->SigPtr;
+    actD = actD->SigPtr;
     // Recorrer el subárbol derecho
     recorrerArbolParaTabla(nodo->getArbolDer(), fila,actD);
 }
+
 
 
 
@@ -394,11 +399,37 @@ void MainWindow::on_Bbtn_sesion_clicked()
             ui->tab_3->setEnabled(false);
             ui->tab_2->setEnabled(false);
 
+            ui->treeWidget->clear();
+
+
+                       QTreeWidgetItem *parentItem = new QTreeWidgetItem(ui->treeWidget);
+                       parentItem->setText(0, "Raíz");
+
+                       recorrerArbolParaTree(arbolSilabo, parentItem, "Prerevision");
+
         }else{
             QMessageBox::warning(this,"Datos no congruetes","Clave incorrecta");
         }
 
     }
+}
+
+void MainWindow::recorrerArbolParaTree(Arbol *nodo, QTreeWidgetItem *parentItem, const std::string &estado)
+{
+    if (nodo == nullptr) {
+        return;
+    }
+
+    recorrerArbolParaTree(nodo->getArbolIzq(), parentItem, estado);
+
+    Silabo *silabo = nodo->getRaiz();
+
+        QTreeWidgetItem *item = new QTreeWidgetItem(parentItem);
+
+        item->setText(0, QString::fromStdString(silabo->getCodigoClase()));
+
+
+    recorrerArbolParaTree(nodo->getArbolDer(), parentItem, estado);
 }
 
 void MainWindow::on_Bbtn_cerrar_clicked()

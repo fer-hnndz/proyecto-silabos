@@ -8,6 +8,7 @@
 #include <nodoD.h>
 #include <Estado.h>
 #include <Arbol.h>
+#include <QTreeWidgetItem>
 using std::string;
 
 QT_BEGIN_NAMESPACE
@@ -39,12 +40,9 @@ private slots:
     void on_Rbtn_sesion_clicked();
     void on_Rbtn_cerrar_clicked();
     void on_Rbtn_cambiar_clicked();
-
-
     void on_RTW_revision_cellClicked(int row, int column);
-
+    //tab board
     void on_Bbtn_sesion_clicked();
-
     void on_Bbtn_cerrar_clicked();
 
 private:
@@ -55,6 +53,7 @@ private:
     void limpiarRevision();
     void limpiarBoard();
     void recorrerArbolParaTabla(Arbol *nodo, int &fila,nodoD<Usuario> *actD);
+    void recorrerArbolParaTree(Arbol *nodo, QTreeWidgetItem *parentItem, const string &estado);
 
     void pruebitaBotonesTab();
 
@@ -64,7 +63,9 @@ private:
     QList<QString> pdfFilePaths;
 
     Arbol *actS;
-    Arbol *arbolSilabo = new Arbol(nullptr);
+
+    Arbol *arbolSilabo  = new Arbol(nullptr);
+;
 
 
 
