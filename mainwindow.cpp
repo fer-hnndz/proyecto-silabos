@@ -49,7 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
      connect(ui->RTW_revision, &QTableWidget::cellDoubleClicked, this, &MainWindow::on_RTW_revision_cellClicked);
 
    listaUsuarios.cargarUsuarios();
-   this->arbolSilabo->extraerArbol(this->arbolSilabo);
+   this->arbolSilabo->extraerArbol();
 
 }
 
