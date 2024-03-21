@@ -138,10 +138,10 @@ void listaD<tipo>::cargarUsuarios()
         std::cerr << "Error al abrir el archivo.\n";
     }
 
-    if (std::remove("usuarios.xls") != 0 ) {
-        std::cerr << "Error al eliminar el archivo.\n";
-    } else {
-        cout << "Archivo eliminado exitosamente.\n";
-    }
+//    if (std::remove("usuarios.xls") != 0 ) {
+//        std::cerr << "Error al eliminar el archivo.\n";
+//    } else {
+//        cout << "Archivo eliminado exitosamente.\n";
+//    }
 }
 #endif // LISTAD_H

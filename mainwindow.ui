@@ -1136,21 +1136,29 @@ Sesion</string>
                <enum>QFrame::Raised</enum>
               </property>
               <layout class="QGridLayout" name="gridLayout_15">
-               <item row="0" column="0">
-                <widget class="QTreeWidget" name="treeWidget">
-                 <column>
-                  <property name="text">
-                   <string notr="true">1</string>
-                  </property>
-                 </column>
+               <item row="1" column="2">
+                <widget class="QRadioButton" name="Bbtn_aceptados">
+                 <property name="text">
+                  <string>Aceptados</string>
+                 </property>
                 </widget>
                </item>
-               <item row="0" column="1">
+               <item row="0" column="2">
+                <widget class="QRadioButton" name="Bbtn_proceso">
+                 <property name="text">
+                  <string>En proceso</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="2">
                 <widget class="QPushButton" name="Bbtn_cerrar">
                  <property name="text">
                   <string>Cerrar Sesion</string>
                  </property>
                 </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QTableWidget" name="tableWidget"/>
                </item>
               </layout>
              </widget>
@@ -1292,7 +1300,7 @@ Sesion</string>
                   </font>
                  </property>
                  <property name="text">
-                  <string>Nombre Registrado:</string>
+                  <string>Nombre registrado:</string>
                  </property>
                 </widget>
                </item>

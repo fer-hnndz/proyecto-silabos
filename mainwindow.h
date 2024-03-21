@@ -8,7 +8,7 @@
 #include <nodoD.h>
 #include <Estado.h>
 #include <Arbol.h>
-#include <QTreeWidgetItem>
+#include <QTableWidgetItem>
 using std::string;
 
 QT_BEGIN_NAMESPACE
@@ -44,12 +44,18 @@ private slots:
     //tab board
     void on_Bbtn_sesion_clicked();
     void on_Bbtn_cerrar_clicked();
+    void on_Bbtn_proceso_clicked();
+    void on_Bbtn_aceptados_clicked();
 
+    //tab reload
     void on_Dbtn_sesion_clicked();
 
     void on_Dbtn_salir_clicked();
 
     void on_DRTW_revision_cellClicked(int row, int column);
+
+
+
 
 private:
     Ui::MainWindow *ui;
@@ -60,7 +66,8 @@ private:
     void limpiarBoard();
 
     void recorrerArbolParaTabla(Arbol *nodo, int &fila,nodoD<Usuario> *actD);
-    void recorrerArbolParaTree(Arbol *nodo, QTreeWidgetItem *parentItem, const string &estado);
+    void recorrerArbolParaTable(Arbol *nodo, QTableWidget *tableWidget, const std::string &estado);
+    bool todo=false;
 
     void pruebitaBotonesTab();
 
