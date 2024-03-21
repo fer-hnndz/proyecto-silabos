@@ -46,7 +46,7 @@ listaD<tipo>::~listaD()
         nodoD<tipo> *ptrTemp;
         while (ptrAct != 0) {
             ptrTemp = ptrAct;
-//            cout << ptrTemp->Dato << "\n";
+            //            cout << ptrTemp->Dato << "\n";
             ptrAct = ptrAct->SigPtr;
             if (ptrAct != nullptr) {
                 ptrAct->AntPtr = nullptr;
@@ -114,7 +114,7 @@ void listaD<tipo>::guardarUsuarios(listaD<Usuario> &listaUsuarios)
         File.close();
         cout << "XLS exportado.\n";
     } else {
-    std::cerr << "Error en el archivo.\n";
+        std::cerr << "Error en el archivo.\n";
     }
 }
 
@@ -122,25 +122,26 @@ template<typename tipo>
 void listaD<tipo>::cargarUsuarios()
 {
     std::ifstream file("usuarios.xls");
-        if (file.is_open()) {
+    if (file.is_open()) {
 
-            string header;
-            std::getline(file, header);
+        string header;
+        std::getline(file, header);
 
-            string nombre, cuenta, code;
-            while (file >> nombre >> cuenta >> code) {
-                Usuario nuevo(nombre, cuenta, code);
-                InsertarFin(nuevo);
-            }
-            file.close();
-            cout << "Usuarios cargados desde el archivo.\n";
-        } else {
-            std::cerr << "Error al abrir el archivo.\n";
+        string nombre, cuenta, code;
+        while (file >> nombre >> cuenta >> code) {
+            Usuario nuevo(nombre, cuenta, code);
+            InsertarFin(nuevo);
         }
-     if (std::remove("usuarios.xls") != 0 ) {
-             std::cerr << "Error al eliminar el archivo.\n";
-         } else {
-             cout << "Archivo eliminado exitosamente.\n";
-         }
+        file.close();
+        cout << "Usuarios cargados desde el archivo.\n";
+    } else {
+        std::cerr << "Error al abrir el archivo.\n";
+    }
+
+    if (std::remove("usuarios.xls") != 0 ) {
+        std::cerr << "Error al eliminar el archivo.\n";
+    } else {
+        cout << "Archivo eliminado exitosamente.\n";
+    }
 }
 #endif // LISTAD_H

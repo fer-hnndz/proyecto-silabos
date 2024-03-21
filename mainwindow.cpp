@@ -34,6 +34,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->lbl_b2M->setStyleSheet("background-color: #062458;");
     QImage entrega(":/prefix/1.png");
     ui->lbl_pngE->setPixmap(QPixmap::fromImage(entrega));
+    ui->Dlbl_png->setPixmap(QPixmap::fromImage(entrega));
+
     QImage revision(":/prefix/2.png");
     ui->lbl_pngR->setPixmap(QPixmap::fromImage(revision));
     QImage dash(":/prefix/3.png");
@@ -43,13 +45,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->frameE->setVisible(false);
     ui->frameR->setVisible(false);
     ui->frameB->setVisible(false);
+    ui->Dframe2->setVisible(false);
+    ui->Dbtn_salir->setVisible(false);
+
+    ui->Dlabel->setStyleSheet("background-color: #062458;");
+    ui->Dlabel2->setStyleSheet("background-color: #062458;");
+
+    connect(ui->RTW_revision, &QTableWidget::cellDoubleClicked, this, &MainWindow::on_RTW_revision_cellClicked);
+
+    listaUsuarios.cargarUsuarios();
+    this->arbolSilabo->extraerArbol();
 
 
-
-     connect(ui->RTW_revision, &QTableWidget::cellDoubleClicked, this, &MainWindow::on_RTW_revision_cellClicked);
-
-   listaUsuarios.cargarUsuarios();
-   this->arbolSilabo->extraerArbol();
 
 }
 
@@ -60,7 +67,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//ahorrando lineas para lo que nos espera :)
 void MainWindow::on_btn_entregarM_clicked(){  ui->tabWidget->setCurrentIndex(1); }
 void MainWindow::on_btn_revision_clicked(){   ui->tabWidget->setCurrentIndex(2); }
 void MainWindow::on_btn_dashboardM_clicked(){ ui->tabWidget->setCurrentIndex(3); }
@@ -69,39 +75,55 @@ void MainWindow::on_btn_dashboardM_clicked(){ ui->tabWidget->setCurrentIndex(3);
 void MainWindow::on_tabWidget_currentChanged(int index)
 {
     QMessageBox::StandardButton cambio;
-    if((index==2 || index==3) && loginDocente){
+    if((index==2 || index==3 || index==4) && loginDocente){
         cambio= QMessageBox::question(this,"Acceso Denegado","Los docentes no tiene acceso\n¿Desea cerrar sesión? ",QMessageBox::Yes | QMessageBox::No);
         if(cambio==QMessageBox::Yes){
             loginDocente=false;
             ui->tabWidget->setCurrentIndex(index);
             ui->tab_3->setEnabled(true);
             ui->tab_4->setEnabled(true);
+            ui->tab_5->setEnabled(true);
             limpiarEntrega();
         }else{
             ui->tabWidget->setCurrentIndex(1);
         }
-    }else if((index==1 || index==3 )&& loginRevision){
+    }else if((index==1 || index==3 || index==4 )&& loginRevision){
         cambio= QMessageBox::question(this,"Acceso Denegado","Ya ha iniciado sesion para otro proceso\n¿Desea cerrar sesión? ",QMessageBox::Yes | QMessageBox::No);
         if(cambio==QMessageBox::Yes){
             loginRevision=false;
             ui->tabWidget->setCurrentIndex(index);
             ui->tab_2->setEnabled(true);
             ui->tab_4->setEnabled(true);
+            ui->tab_5->setEnabled(true);
             limpiarRevision();
         }else{
             ui->tabWidget->setCurrentIndex(2);
 
         }
-    }else if((index==1 || index==2) && loginBoard){
+    }else if((index==1 || index==2 || index==4) && loginBoard){
         cambio= QMessageBox::question(this,"Acceso Denegado","Ya ha iniciado sesion solo para visualizar\n¿Desea cerrar sesión? ",QMessageBox::Yes | QMessageBox::No);
         if(cambio==QMessageBox::Yes){
             loginBoard=false;
             ui->tabWidget->setCurrentIndex(index);
             ui->tab_3->setEnabled(true);
             ui->tab_2->setEnabled(true);
+            ui->tab_5->setEnabled(true);
             limpiarBoard();
         }else{
             ui->tabWidget->setCurrentIndex(3);
+
+        }
+    }else if((index==1 || index==2 || index==3) && loginCheck){
+        cambio= QMessageBox::question(this,"Acceso Denegado","Ya ha iniciado sesion solo para otro proceso\n¿Desea cerrar sesión? ",QMessageBox::Yes | QMessageBox::No);
+        if(cambio==QMessageBox::Yes){
+            loginCheck=false;
+            ui->tabWidget->setCurrentIndex(index);
+            ui->tab_3->setEnabled(true);
+            ui->tab_2->setEnabled(true);
+            ui->tab_4->setEnabled(true);
+
+        }else{
+            ui->tabWidget->setCurrentIndex(4);
 
         }
     }
@@ -119,6 +141,7 @@ void MainWindow::on_btn_sesion_clicked()
             loginDocente=true;
             ui->tab_3->setEnabled(false);
             ui->tab_4->setEnabled(false);
+             ui->tab_5->setEnabled(false);
         }else{
             QMessageBox::warning(this,"Datos no congruetes","Clave incorrecta");
         }
@@ -130,6 +153,8 @@ void MainWindow::on_btn_closeE_clicked()
 {
     loginDocente=false;
     ui->tab_3->setEnabled(true);
+    ui->tab_4->setEnabled(true);
+    ui->tab_5->setEnabled(true);
     limpiarEntrega();
     ui->tabWidget->setCurrentIndex(0);
 }
@@ -139,7 +164,6 @@ void MainWindow::limpiarEntrega()
     ui->cb_carreraE->clear();
     items<<"...";
     ui->cb_carreraE->addItems(items);
-    ui->le_claseE->clear();
     ui->le_codigoE->clear();
     ui->le_pathE->clear();
     if(loginDocente){
@@ -158,11 +182,11 @@ void MainWindow::limpiarEntrega()
 
 void MainWindow::on_btn_silaboE_clicked()
 {
-    if(ui->cb_facultadE->currentIndex()==0 || ui->cb_carreraE->currentIndex()==0 || ui->le_claseE->text().isEmpty()|| ui->le_codigoE->text().isEmpty() || ui->le_pathE->text().isEmpty()){
+    if(ui->cb_facultadE->currentIndex()==0 || ui->cb_carreraE->currentIndex()==0 || ui->le_codigoE->text().isEmpty() || ui->le_pathE->text().isEmpty()){
         QMessageBox::warning(this,"Datos no congruetes","Favor no deje campos sin completar");
     }else{
         QMessageBox::information(this,"Enviado","Datos han sido enviados");
-        cantSilabos++;
+        cantSilabos=this->arbolSilabo->getCantidadArbol()+1;
         //datos usuario
         string name=ui->le_nameE->text().toStdString();
         string tipoUsuario="DOCENTE";
@@ -179,7 +203,6 @@ void MainWindow::on_btn_silaboE_clicked()
         string carrera=ui->cb_carreraE->currentText().toStdString();
 
 
-        string clase=ui->le_claseE->text().toStdString();
         QString path=ui->le_pathE->text();
         string comentario="";
 
@@ -187,11 +210,10 @@ void MainWindow::on_btn_silaboE_clicked()
         //poner numero de revisiones en 0
         //id seria cantidad en lista mas uno
         // Silabo(string facultad, std::vector<Ingenieria> carreras, string nombre, string codigoClase, QString ruta, Estado estado, string observacion, int id, int numRevisiones)
-        Silabo* silaboEjemplo = new Silabo(facultad,carrera,numCuenta,codigoClase,path,"Prerevision","h",cantSilabos,0);
+        Silabo* silaboEjemplo = new Silabo(facultad,carrera,numCuenta,codigoClase,path,"Prerevision","...",cantSilabos,0);
 
         this->arbolSilabo->add(silaboEjemplo);
         this->arbolSilabo->guardar();
-
 
         limpiarEntrega();
     }
@@ -199,11 +221,9 @@ void MainWindow::on_btn_silaboE_clicked()
 void MainWindow::on_btn_archivoE_clicked()
 {
     QString filePath = QFileDialog::getOpenFileName(this, "Explorador de Archivos PDF", QDir::homePath(), "PDF Files (*.pdf)");
-        if (!filePath.isEmpty()) {
-            pdfFilePaths.append(filePath);
-            // Mostrar la ruta en el cuadro de texto
-            ui->le_pathE->setText(filePath);
-        }
+    if (!filePath.isEmpty()) {
+        ui->le_pathE->setText(filePath);
+    }
 }
 void MainWindow::on_cb_facultadE_currentIndexChanged(int i)
 {
@@ -239,7 +259,7 @@ void MainWindow::on_Rcb_usuario_currentIndexChanged(int i)
         if(!revision2){
             items<<"..."<<"Aprobado"<<"Correcion Mayor"<<"Correcion Menor";
         }else{
-            items<<"..."<<"Aprobado"<<"Aprobado con condicion";
+            items<<"..."<<"Aprobar"<<"Aprobado con condicion";
         }
         ui->Rcb_cambiarE->addItems(items);
 
@@ -263,6 +283,7 @@ void MainWindow::on_Rbtn_sesion_clicked()
             loginRevision=true;
             ui->tab_2->setEnabled(false);
             ui->tab_4->setEnabled(false);
+            ui->tab_5->setEnabled(false);
             pruebitaBotonesTab();
 
         }else{
@@ -298,8 +319,10 @@ void MainWindow::limpiarRevision()
 void MainWindow::on_Rbtn_cerrar_clicked()
 {
     loginRevision=false;
-     ui->RTW_revision->setRowCount(0);
+    ui->RTW_revision->setRowCount(0);
     ui->tab_2->setEnabled(true);
+    ui->tab_4->setEnabled(true);
+    ui->tab_5->setEnabled(true);
     limpiarRevision();
     ui->tabWidget->setCurrentIndex(0);
 }
@@ -313,6 +336,8 @@ void MainWindow::on_Rbtn_cambiar_clicked()
     }else if(ui->Rcb_cambiarE->currentIndex()==0){
         QMessageBox::warning(this,"Datos no congruetes","No ha seleccionado estado a cambiar");
     }else{
+        cambiarEstado=true;
+        modificarDatosSilabo(arbolSilabo,id,"QString pathNuevo");
         QMessageBox::information(this,"Datos congruetes","Datos han sido actualizados");
         limpiarRevision();
     }
@@ -320,12 +345,74 @@ void MainWindow::on_Rbtn_cambiar_clicked()
 }
 
 
+
+void MainWindow::cambiarSilabo(int id, QString pathActual)
+{
+    QString filePath = QFileDialog::getOpenFileName(this, "Explorador de Archivos PDF", QDir::homePath(), "PDF Files (*.pdf)");
+    if (pathActual==filePath) {//buscar en el arbol
+        QMessageBox::warning(this, "No posible", "Ha seleccionado el mismo silabo");
+    }else if(!filePath.isEmpty()){
+        cambiarPath=true;
+        modificarDatosSilabo(arbolSilabo,id,filePath);
+    }else{
+        QMessageBox::warning(this, "No posible", "No ha seleccionado");
+    }
+}
+
+void MainWindow::modificarDatosSilabo(Arbol *nodo,int id, QString pathNuevo)
+{
+    if (nodo == nullptr) {
+        return;
+    }
+    modificarDatosSilabo(nodo->getArbolIzq(),id, pathNuevo);
+    Silabo *silabo = nodo->getRaiz();
+    if(silabo->getId()==id && cambiarPath){
+        silabo->setRuta(pathNuevo);
+        cambiarPath=false;
+        if(loginRevision){
+            pruebitaBotonesTab();
+        }else{
+            mostrarDocente(arbolSilabo,0, ui->Dle_cuenta->text().toStdString());
+        }
+        return;
+    }else if(silabo->getId()==id && cambiarEstado){
+        string nuevaObservacion=ui->Rle_comentario->text().toStdString();
+        string nuevoEstado=ui->Rcb_cambiarE->currentText().toStdString();
+        int nuevoNumRevisiones=0;
+        if(ui->Rcb_usuario->currentIndex()==3 && nuevoEstado=="Listo para Revision 1"){
+            nuevoNumRevisiones++;
+        }
+        silabo->setEstado(nuevoEstado);
+        silabo->setObservacion(nuevaObservacion);
+        silabo->setNumRevisiones(nuevoNumRevisiones);
+        pruebitaBotonesTab();
+        cambiarEstado=false;
+        return;
+
+    }
+
+
+    modificarDatosSilabo(nodo->getArbolDer(),id, pathNuevo);
+}
+
+string MainWindow::obtenerNombre(std::string cuenta)
+{
+    nodoD<Usuario> *actD=listaUsuarios.PrimPtr;
+    while(actD != 0){
+        if(cuenta==actD->Dato.cuenta){
+            return actD->Dato.name;
+        }
+        actD=actD->SigPtr;
+    }
+    return "...";
+}
+
 void MainWindow::pruebitaBotonesTab()
 {
     ui->RTW_revision->clear();
-    ui->RTW_revision->setColumnCount(10);//tab 2 tw_doble
+    ui->RTW_revision->setColumnCount(13);//tab 2 tw_doble
 
-    ui->RTW_revision->setHorizontalHeaderLabels(QStringList() <<"MODIFCAR"<<"VER DOCX"<<"ESTADO"<<"INGRESADO POR"<<"# CUENTA"<<"FACULTAD"<<"CARRERA"<<"CODIGO CLASE"<<"PATH"<<"OBSERVACION");
+    ui->RTW_revision->setHorizontalHeaderLabels(QStringList() <<"MODIFCAR"<<"VER DOCX"<<"ORDEN DE INGRESO"<<"ESTADO"<<"INGRESADO POR"<<"# CUENTA"<<"FACULTAD"<<"CARRERA"<<"CODIGO CLASE"<<"PATH"<<"OBSERVACION"<<"RELOAD"<<"# REVISONES");
     int fila = 0;
 
     recorrerArbolParaTabla(arbolSilabo, fila,listaUsuarios.PrimPtr);
@@ -337,9 +424,7 @@ void MainWindow::recorrerArbolParaTabla(Arbol *nodo, int &fila,nodoD<Usuario> *a
         return;
     }
     bool mostrar=false;
-
     recorrerArbolParaTabla(nodo->getArbolIzq(), fila,actD);
-
     Silabo *silabo = nodo->getRaiz();
 
     if(actD != nullptr){
@@ -357,14 +442,23 @@ void MainWindow::recorrerArbolParaTabla(Arbol *nodo, int &fila,nodoD<Usuario> *a
             ui->RTW_revision->setRowCount(fila + 1);
             ui->RTW_revision->setItem(fila, 0, new QTableWidgetItem(QString::fromStdString("EDITAR")));
             ui->RTW_revision->setItem(fila, 1, new QTableWidgetItem(QString::fromStdString("VER")));
-            ui->RTW_revision->setItem(fila, 2, new QTableWidgetItem(QString::fromStdString(silabo->getEstado())));
-            ui->RTW_revision->setItem(fila, 3, new QTableWidgetItem(QString::fromStdString(actD->Dato.getName())));
-            ui->RTW_revision->setItem(fila, 4, new QTableWidgetItem(QString::fromStdString(actD->Dato.getCuenta())));
-            ui->RTW_revision->setItem(fila, 5, new QTableWidgetItem(QString::fromStdString(silabo->getFacultad())));
-            ui->RTW_revision->setItem(fila, 6, new QTableWidgetItem(QString::fromStdString(silabo->getCarreras())));
-            ui->RTW_revision->setItem(fila, 7, new QTableWidgetItem(QString::fromStdString(silabo->getCodigoClase())));
-            ui->RTW_revision->setItem(fila, 8, new QTableWidgetItem(silabo->getRuta()));
-            ui->RTW_revision->setItem(fila, 9, new QTableWidgetItem(QString::fromStdString(silabo->getObservacion())));
+            ui->RTW_revision->setItem(fila, 2, new QTableWidgetItem(QString::number(silabo->getId())));
+            ui->RTW_revision->setItem(fila, 3, new QTableWidgetItem(QString::fromStdString(silabo->getEstado())));
+
+
+            string ingresadoPor=obtenerNombre(silabo->getNombre());
+
+            ui->RTW_revision->setItem(fila, 4, new QTableWidgetItem(QString::fromStdString(ingresadoPor)));
+            ui->RTW_revision->setItem(fila, 5, new QTableWidgetItem(QString::fromStdString(silabo->getNombre())));
+
+            ui->RTW_revision->setItem(fila, 6, new QTableWidgetItem(QString::fromStdString(silabo->getFacultad())));
+            ui->RTW_revision->setItem(fila, 7, new QTableWidgetItem(QString::fromStdString(silabo->getCarreras())));
+            ui->RTW_revision->setItem(fila, 8, new QTableWidgetItem(QString::fromStdString(silabo->getCodigoClase())));
+            ui->RTW_revision->setItem(fila, 9, new QTableWidgetItem(silabo->getRuta()));
+            ui->RTW_revision->setItem(fila, 10, new QTableWidgetItem(QString::fromStdString(silabo->getObservacion())));
+            ui->RTW_revision->setItem(fila, 11, new QTableWidgetItem(QString::fromStdString("NUEVO SILABO")));
+            ui->RTW_revision->setItem(fila, 12, new QTableWidgetItem(QString::number(silabo->getNumRevisiones())));
+
             fila++;
         }
 
@@ -377,23 +471,29 @@ void MainWindow::recorrerArbolParaTabla(Arbol *nodo, int &fila,nodoD<Usuario> *a
     recorrerArbolParaTabla(nodo->getArbolDer(), fila,actD);
 }
 
-
-
-
 void MainWindow::on_RTW_revision_cellClicked(int row, int column)
 {
     if(column==0){
-        QString dato = ui->RTW_revision->item(row, 7)->text() +"    Observacion:"  +ui->RTW_revision->item(row, 9)->text();
+        QString dato = ui->RTW_revision->item(row, 8)->text() +"    Observacion:"  +ui->RTW_revision->item(row, 10)->text();
+        id=ui->RTW_revision->item(row, 2)->text().toInt();
         ui->Rle_seleccion->setText(dato);
-        QString estado = ui->RTW_revision->item(row, 2)->text();
+        QString estado = ui->RTW_revision->item(row, 3)->text();
         ui->Rle_estadoA->setText(estado);
+        if(ui->RTW_revision->item(row, 12)->text().toInt() >=2){
+            revision2=true;
+        }else{
+            revision2=false;
+        }
 
     }else if(column ==1){
-        if (row>=0 && row<pdfFilePaths.size()) {
-            QString selectedFilePath = pdfFilePaths[row];
-            QDesktopServices::openUrl(QUrl::fromLocalFile(selectedFilePath));
-        }
+
+        QString selectedFilePath = ui->RTW_revision->item(row, 9)->text();
+        QDesktopServices::openUrl(QUrl::fromLocalFile(selectedFilePath));
+
+    }else if(column==11){
+        cambiarSilabo(ui->RTW_revision->item(row, 2)->text().toInt(),ui->RTW_revision->item(row, 9)->text());
     }
+
 }
 
 //logica tab3
@@ -410,6 +510,7 @@ void MainWindow::on_Bbtn_sesion_clicked()
             loginBoard=true;
             ui->tab_3->setEnabled(false);
             ui->tab_2->setEnabled(false);
+            ui->tab_5->setEnabled(false);
 
             ui->treeWidget->clear();
 
@@ -456,9 +557,92 @@ void MainWindow::limpiarBoard()
     ui->Bcb_usuario->setCurrentIndex(0);
     ui->tab_3->setEnabled(true);
     ui->tab_2->setEnabled(true);
+    ui->tab_5->setEnabled(true);
     ui->frameB->setVisible(false);
     ui->frameB1->setEnabled(true);
 }
 
 
+
+//tab docente confirmar
+void MainWindow::on_Dbtn_sesion_clicked()
+{
+    if(ui->Dle_clave->text().isEmpty() || ui->Dle_cuenta->text().isEmpty() || ui->Dle_name->text().isEmpty()){
+        QMessageBox::warning(this,"Datos incompletos","Favor, no deje campos vacios");
+    }else if(ui->Dle_clave->text().toStdString() != claveDocente){
+        QMessageBox::warning(this,"Datos incongruentes","Clave incorrecta");
+    }else{
+        string name=obtenerNombre(ui->Dle_cuenta->text().toStdString());
+        if(name=="..."){
+            QMessageBox::warning(this,"Datos incongruentes","Numero de cuenta o usario incorrectos");
+
+        }else{
+            loginCheck=true;
+            ui->tab_3->setEnabled(false);
+            ui->tab_2->setEnabled(false);
+            ui->tab_4->setEnabled(false);
+            ui->Dframe2->setVisible(true);
+            ui->Dbtn_salir->setVisible(true);
+            ui->DRTW_revision->clear();
+            ui->DRTW_revision->setColumnCount(9);//tab 2 tw_doble
+            ui->DRTW_revision->setHorizontalHeaderLabels(QStringList() <<"VER DOCX"<<"ORDEN DE INGRESO"<<"INGRESADO POR"<<"# CUENTA"<<"FACULTAD"<<"CARRERA"<<"CODIGO CLASE"<<"PATH"<<"RELOAD");
+            mostrarDocente(arbolSilabo,0, ui->Dle_cuenta->text().toStdString());
+        }
+
+    }
+}
+void MainWindow::mostrarDocente(Arbol *nodo,int fila,string numCuenta)
+{
+    if (nodo == nullptr) {
+        return;
+    }
+    mostrarDocente(nodo->getArbolIzq(), fila,numCuenta);
+    Silabo *silabo = nodo->getRaiz();
+
+    if(numCuenta == silabo->getNombre()){
+        ui->DRTW_revision->setRowCount(fila + 1);
+        ui->DRTW_revision->setItem(fila, 0, new QTableWidgetItem(QString::fromStdString("VER")));
+        ui->DRTW_revision->setItem(fila, 1, new QTableWidgetItem(QString::number(silabo->getId())));
+
+        string ingresadoPor=obtenerNombre(silabo->getNombre());
+
+        ui->DRTW_revision->setItem(fila, 2, new QTableWidgetItem(QString::fromStdString(ingresadoPor)));
+        ui->DRTW_revision->setItem(fila, 3, new QTableWidgetItem(QString::fromStdString(silabo->getNombre())));
+
+        ui->DRTW_revision->setItem(fila, 4, new QTableWidgetItem(QString::fromStdString(silabo->getFacultad())));
+        ui->DRTW_revision->setItem(fila, 5, new QTableWidgetItem(QString::fromStdString(silabo->getCarreras())));
+        ui->DRTW_revision->setItem(fila, 6, new QTableWidgetItem(QString::fromStdString(silabo->getCodigoClase())));
+        ui->DRTW_revision->setItem(fila, 7, new QTableWidgetItem(silabo->getRuta()));
+        ui->DRTW_revision->setItem(fila, 8, new QTableWidgetItem(QString::fromStdString("NUEVO SILABO")));
+
+        fila++;
+    }
+    mostrarDocente(nodo->getArbolDer(), fila,numCuenta);
+}
+
+void MainWindow::on_Dbtn_salir_clicked()
+{
+    ui->DRTW_revision->clear();
+    ui->Dle_clave->clear();
+    ui->Dle_cuenta->clear();
+    ui->Dle_name->clear();
+    ui->tab_3->setEnabled(true);
+    ui->tab_2->setEnabled(true);
+    ui->tab_4->setEnabled(true);
+    ui->Dframe2->setVisible(false);
+    loginCheck=false;
+    ui->Dbtn_salir->setVisible(false);
+}
+
+
+void MainWindow::on_DRTW_revision_cellClicked(int row, int column)
+{
+    if(column ==0){
+        QString selectedFilePath = ui->DRTW_revision->item(row, 7)->text();
+        QDesktopServices::openUrl(QUrl::fromLocalFile(selectedFilePath));
+
+    }else if(column==8){
+        cambiarSilabo(ui->DRTW_revision->item(row, 1)->text().toInt(),ui->DRTW_revision->item(row, 7)->text());
+    }
+}
 

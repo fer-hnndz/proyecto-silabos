@@ -45,33 +45,43 @@ private slots:
     void on_Bbtn_sesion_clicked();
     void on_Bbtn_cerrar_clicked();
 
+    void on_Dbtn_sesion_clicked();
+
+    void on_Dbtn_salir_clicked();
+
+    void on_DRTW_revision_cellClicked(int row, int column);
+
 private:
     Ui::MainWindow *ui;
 
-    bool loginDocente=false,loginRevision=false, revision2=false, loginBoard=false;
+    bool loginDocente=false,loginRevision=false, revision2=false, loginBoard=false, loginCheck=false;;
     void limpiarEntrega();
     void limpiarRevision();
     void limpiarBoard();
+
     void recorrerArbolParaTabla(Arbol *nodo, int &fila,nodoD<Usuario> *actD);
     void recorrerArbolParaTree(Arbol *nodo, QTreeWidgetItem *parentItem, const string &estado);
 
     void pruebitaBotonesTab();
 
+    void cambiarSilabo(int id,QString pathActual);
+    void modificarDatosSilabo(Arbol *nodo,int id,QString pathNuevo);
+    string obtenerNombre(string);
+    bool cambiarPath=false, cambiarEstado=false;
+
     listaD<Usuario> listaUsuarios;
     nodoD<Usuario> *actD;
     nodoD<Usuario> *ultD;
-    QList<QString> pdfFilePaths;
 
     Arbol *actS;
-
     Arbol *arbolSilabo  = new Arbol(nullptr);
-;
-
-
 
     int cantSilabos=0;
+    int id=0;
 
     string claveDocente="teacher123", claveJefe="boss123",claveCoordinador="coordinator123",claveIEDD="what123",claveConsultor="advisor123",claveDecano="dean123",claveDirector="director123";
+
+    void mostrarDocente(Arbol *nodo,int fila,string numCuenta);
 
 };
 

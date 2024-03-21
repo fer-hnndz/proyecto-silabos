@@ -22,7 +22,7 @@ private:
     Arbol* left;
     Arbol* right;
     Silabo *data = nullptr;
-
+    int cantidadArbol=0;
 public:
 
     Arbol(Silabo* silabo) {
@@ -56,6 +56,7 @@ public:
 
     void add(Silabo *obj)
     {
+        cantidadArbol++;
         if (data == nullptr)
         {
             data = obj;
@@ -94,19 +95,17 @@ public:
     }
 
     void extraerArbol() {
-
-
         std::ifstream file("silabo.xls");
         if (file.is_open()) {
             std::cout << "[extraer] Archivo abierto correctamente.\n";
             std::string line;
-            std::getline(file, line); // Ignorar la línea de encabezado si es necesario
+            std::getline(file, line); // Ignorar encabezado si es necesario
             while (std::getline(file, line)) {
                 std::stringstream ss(line);
                 std::string field;
                 std::vector<std::string> fields;
 
-                cout << "~~~~~~LEYENDO~~~~~~~~\n\n";
+                std::cout << "~~~~~~LEYENDO~~~~~~~~\n\n";
                 while (std::getline(ss, field, '\t')) {
                     fields.push_back(field);
                 }
@@ -124,7 +123,8 @@ public:
 
                     std::cout << "Facultad: " << facultad << ", Carrera: " << carrera << ", Nombre: " << nombre
                                               << ", CodigoClase: " << codigoClase << ", Ruta: " << ruta << ", Estado: " << estado
-                                              << ", Observacion: " << observacion << ", ID: " << id << ", NumRevisiones: " << numRevisiones << std::endl;
+                                              << ", Observacion: " << observacion
+                                              << ", ID: " << id << ", NumRevisiones: " << numRevisiones << std::endl;
                     std::cout << "-----------------------\n";
 
                     // Crear el objeto Silabo y insertarlo en el árbol
@@ -172,7 +172,7 @@ public:
         file.close();
         std::ofstream File("silabo.xls");
         if (File.is_open()) {
-            File << "Facultad\tCarrera\tIngresado Por\tCodigo de Clase\tRuta\tEstado\tObservacion\tID\tNumero de Revisiones\n";
+            File << "Facultad\tCarrera\tIngresado Por\tCodigo de Clase\tRuta\tEstado\tObservacion\tVisibilidad\tID\tNumero de Revisiones\n";
             guardarExcel(File,this);
             File.close();
             std::cout << "XLS exportado.\n";
@@ -195,6 +195,16 @@ public:
             delete data;
             data = nullptr;
         }
+    }
+
+    int getCantidadArbol() const
+    {
+        return cantidadArbol;
+    }
+
+    void setCantidadArbol(int nuevoCantidadArbol)
+    {
+        cantidadArbol = nuevoCantidadArbol;
     }
 
 

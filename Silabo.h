@@ -15,12 +15,13 @@ class Silabo {
     private:
         string facultad;
         string carrera;
-        string nombre;
+        string insertadoPor;
         string codigoClase;
         QString ruta;
 
         string estado;
         string observacion; // Para que digan que quieren de cambio
+        string visibilidad;
 
         int id; // Para mantener track de los archivos
         int numRevisiones; // Para contar cuantas veces se ha revisado el silabo
@@ -28,12 +29,9 @@ class Silabo {
     public:
 
         Silabo(string facultad, string carrera, string nombre, string codigoClase, QString ruta, string estado, string observacion, int id, int numRevisiones)
-            : facultad(facultad), carrera(carrera), nombre(nombre), codigoClase(codigoClase),ruta(ruta),estado(estado), observacion(observacion), id(id), numRevisiones(numRevisiones){
+            : facultad(facultad), carrera(carrera), insertadoPor(nombre), codigoClase(codigoClase),ruta(ruta),estado(estado), observacion(observacion), id(id), numRevisiones(numRevisiones){
         }
-        ~Silabo()
-        {
-
-        }
+        ~Silabo(){}
 
           string getFacultad() const {
               return facultad;
@@ -44,7 +42,7 @@ class Silabo {
           }
 
           string getNombre() const {
-              return nombre;
+              return insertadoPor;
           }
 
           string getCodigoClase() const {
@@ -82,7 +80,7 @@ class Silabo {
           }
 
           void setNombre(const string& nuevoNombre) {
-              nombre = nuevoNombre;
+              insertadoPor = nuevoNombre;
           }
 
           void setCodigoClase(const string& nuevoCodigoClase) {
@@ -93,7 +91,6 @@ class Silabo {
               ruta = nuevaRuta;
           }
 
-
           void setEstado(const string& nuevoEstado) {
               estado = nuevoEstado;
           }
@@ -101,6 +98,7 @@ class Silabo {
           void setObservacion(const string& nuevaObservacion) {
               observacion = nuevaObservacion;
           }
+
 
           void setId(int nuevoId) {
               id = nuevoId;
@@ -112,8 +110,8 @@ class Silabo {
 
           long toNum() const {
               long val = 0;
-              for (int i = 0; i < nombre.size(); i++) {
-                  char c = nombre[i];
+              for (int i = 0; i < codigoClase.size(); i++) {
+                  char c = codigoClase[i];
                   val += c;
               }
 
