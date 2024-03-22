@@ -7,6 +7,7 @@
 #include <fstream>
 using std::cout;
 using std::string;
+using std::cerr;
 
 
 template<typename tipo>
@@ -112,9 +113,9 @@ void listaD<tipo>::guardarUsuarios(listaD<Usuario> &listaUsuarios)
         File << "Nombre\tCuenta\tClase Ingresada\n";
         guardarExcelUsuarios(File, listaUsuarios);
         File.close();
-        cout << "XLS exportado.\n";
+        cout << "XLS exportado\n";
     } else {
-        std::cerr << "Error en el archivo.\n";
+        cerr << "Error en el archivo\n";
     }
 }
 
@@ -133,9 +134,9 @@ void listaD<tipo>::cargarUsuarios()
             InsertarFin(nuevo);
         }
         file.close();
-        cout << "Usuarios cargados desde el archivo.\n";
+        cout << "Usuarios cargados desde el archivo\n";
     } else {
-        std::cerr << "Error al abrir el archivo.\n";
+        cerr << "Error al abrir el archivo\n";
     }
 
 //    if (std::remove("usuarios.xls") != 0 ) {

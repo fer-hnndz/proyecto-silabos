@@ -99,7 +99,7 @@ public:
         if (file.is_open()) {
             std::cout << "[extraer] Archivo abierto correctamente.\n";
             std::string line;
-            std::getline(file, line); // Ignorar encabezado si es necesario
+            std::getline(file, line); // Ignorar encabezado
             while (std::getline(file, line)) {
                 std::stringstream ss(line);
                 std::string field;
@@ -110,7 +110,7 @@ public:
                     fields.push_back(field);
                 }
 
-                if (fields.size() == 9) { // Asumiendo que hay 9 campos en cada línea
+                if (fields.size() == 9) { //9 datos/campos
                     std::string facultad = fields[0];
                     std::string carrera = fields[1];
                     std::string nombre = fields[2];
@@ -127,7 +127,6 @@ public:
                                               << ", ID: " << id << ", NumRevisiones: " << numRevisiones << std::endl;
                     std::cout << "-----------------------\n";
 
-                    // Crear el objeto Silabo y insertarlo en el árbol
                     Silabo* nuevoSilabo = new Silabo(facultad, carrera, nombre, codigoClase, QString::fromStdString(ruta), estado, observacion, id, numRevisiones);
                     this->add(nuevoSilabo);
                 } else {
@@ -153,7 +152,6 @@ public:
                 << silabo->getNombre() << "\t"
                 << silabo->getCodigoClase() << "\t"
                 << silabo->getRuta().toStdString() << "\t"
-                   //<< '"' << silabo->getRuta().toStdString() << '"' << "\t"
                 << silabo->getEstado() << "\t"
                 << silabo->getObservacion() << "\t"
                 << silabo->getId() << "\t"

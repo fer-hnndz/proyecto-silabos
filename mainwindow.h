@@ -49,9 +49,7 @@ private slots:
 
     //tab reload
     void on_Dbtn_sesion_clicked();
-
     void on_Dbtn_salir_clicked();
-
     void on_DRTW_revision_cellClicked(int row, int column);
 
 

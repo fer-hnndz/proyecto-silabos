@@ -16,7 +16,6 @@ SOURCES += \
 HEADERS += \
     Arbol.h \
     Estado.h \
-    Ingenieria.h \
     Silabo.h \
     Usuario.h \
     listaD.h \

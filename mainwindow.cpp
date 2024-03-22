@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+ #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QImage>
 #include <QPixmap>
@@ -521,7 +521,7 @@ void MainWindow::on_RTW_revision_cellClicked(int row, int column)
 
 }
 
-//logica tab3
+//logica tab3 director y decano
 void MainWindow::on_Bbtn_sesion_clicked() {
     if (ui->Ble_name->text().isEmpty() || ui->Ble_clave->text().isEmpty() || ui->Bcb_usuario->currentIndex() == 0) {
         QMessageBox::warning(this, "Datos no congruetes", "Favor no deje campos sin completar");
